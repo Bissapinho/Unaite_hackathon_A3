@@ -1,0 +1,7 @@
+# Brique 1 — Data synthétique (scénario SH-2049)
+# Python 3.11+
+openpyxl>=3.1        # génération des .xlsx
+reportlab>=4.0       # génération des PDF (texte extractible)
+mcp>=1.0             # SDK Model Context Protocol officiel (serveurs mock stdio)
+Faker>=24.0          # bruit réaliste uniquement (seed fixe pour reproductibilité)
+pypdf>=4.0           # ré-extraction du texte des PDF dans data/validate.py (check #6)

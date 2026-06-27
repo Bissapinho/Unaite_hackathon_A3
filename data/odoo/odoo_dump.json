@@ -1,0 +1,790 @@
+{
+  "res.partner": [
+    {
+      "partner_id": "C001",
+      "name": "MedPharma",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Pharma",
+      "category": "Platinum",
+      "user_id": "Sarah Martin",
+      "x_strategic_value": 1200000
+    },
+    {
+      "partner_id": "C002",
+      "name": "FreshMarket",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Retail",
+      "category": "Gold",
+      "user_id": "Jules Bernard",
+      "x_strategic_value": null
+    },
+    {
+      "partner_id": "C003",
+      "name": "AutoParts SAS",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Automotive",
+      "category": "Silver",
+      "user_id": "Clara Moreau",
+      "x_strategic_value": null
+    },
+    {
+      "partner_id": "C004",
+      "name": "BioCare Labs",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Healthcare",
+      "category": "Platinum",
+      "user_id": "Sarah Martin",
+      "x_strategic_value": null
+    },
+    {
+      "partner_id": "C005",
+      "name": "Nicolas",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Beverage",
+      "category": "Silver",
+      "user_id": "Hugo Petit",
+      "x_strategic_value": 163832
+    },
+    {
+      "partner_id": "C006",
+      "name": "Baudry",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Cosmetics",
+      "category": "Bronze",
+      "user_id": "Hugo Petit",
+      "x_strategic_value": null
+    },
+    {
+      "partner_id": "C007",
+      "name": "Joseph",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Automotive",
+      "category": "Gold",
+      "user_id": "Emma Dubois",
+      "x_strategic_value": null
+    },
+    {
+      "partner_id": "C008",
+      "name": "Mathieu S.A.R.L.",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Retail",
+      "category": "Silver",
+      "user_id": "Paul Lefevre",
+      "x_strategic_value": null
+    },
+    {
+      "partner_id": "C009",
+      "name": "Devaux",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Cosmetics",
+      "category": "Silver",
+      "user_id": "Jules Bernard",
+      "x_strategic_value": 434125
+    },
+    {
+      "partner_id": "C010",
+      "name": "Colin",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Electronics",
+      "category": "Silver",
+      "user_id": "Paul Lefevre",
+      "x_strategic_value": 472798
+    },
+    {
+      "partner_id": "C011",
+      "name": "Raymond",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Chemicals",
+      "category": "Silver",
+      "user_id": "Clara Moreau",
+      "x_strategic_value": null
+    },
+    {
+      "partner_id": "C012",
+      "name": "Pichon Mendès SARL",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Electronics",
+      "category": "Gold",
+      "user_id": "Jules Bernard",
+      "x_strategic_value": 473247
+    },
+    {
+      "partner_id": "C013",
+      "name": "Guillot S.A.S.",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Chemicals",
+      "category": "Bronze",
+      "user_id": "Paul Lefevre",
+      "x_strategic_value": null
+    },
+    {
+      "partner_id": "C014",
+      "name": "Carre SA",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Automotive",
+      "category": "Bronze",
+      "user_id": "Emma Dubois",
+      "x_strategic_value": null
+    },
+    {
+      "partner_id": "C015",
+      "name": "Gilles Poulain S.A.S.",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Food",
+      "category": "Silver",
+      "user_id": "Clara Moreau",
+      "x_strategic_value": 337881
+    },
+    {
+      "partner_id": "C016",
+      "name": "Fernandez",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Automotive",
+      "category": "Silver",
+      "user_id": "Clara Moreau",
+      "x_strategic_value": null
+    },
+    {
+      "partner_id": "C017",
+      "name": "Antoine Guibert S.A.S.",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Industrial",
+      "category": "Silver",
+      "user_id": "Clara Moreau",
+      "x_strategic_value": 564814
+    },
+    {
+      "partner_id": "C018",
+      "name": "Léger",
+      "customer_rank": 1,
+      "supplier_rank": 0,
+      "industry_id": "Retail",
+      "category": "Bronze",
+      "user_id": "Paul Lefevre",
+      "x_strategic_value": null
+    }
+  ],
+  "sale.order": [
+    {
+      "order_id": "O-881",
+      "partner_id": "C001",
+      "client_order_ref": "PO-8821",
+      "date_order": "2026-06-24",
+      "state": "open"
+    },
+    {
+      "order_id": "O-882",
+      "partner_id": "C002",
+      "client_order_ref": "PO-8822",
+      "date_order": "2026-06-25",
+      "state": "open"
+    },
+    {
+      "order_id": "O-883",
+      "partner_id": "C003",
+      "client_order_ref": "PO-8823",
+      "date_order": "2026-06-25",
+      "state": "open"
+    },
+    {
+      "order_id": "O-884",
+      "partner_id": "C004",
+      "client_order_ref": "PO-8824",
+      "date_order": "2026-06-26",
+      "state": "open"
+    },
+    {
+      "order_id": "O-885",
+      "partner_id": "C007",
+      "client_order_ref": "PO-8825",
+      "date_order": "2026-06-14",
+      "state": "open"
+    },
+    {
+      "order_id": "O-886",
+      "partner_id": "C015",
+      "client_order_ref": "PO-8826",
+      "date_order": "2026-06-12",
+      "state": "open"
+    },
+    {
+      "order_id": "O-887",
+      "partner_id": "C012",
+      "client_order_ref": "PO-8827",
+      "date_order": "2026-06-08",
+      "state": "open"
+    },
+    {
+      "order_id": "O-888",
+      "partner_id": "C014",
+      "client_order_ref": "PO-8828",
+      "date_order": "2026-05-29",
+      "state": "open"
+    },
+    {
+      "order_id": "O-889",
+      "partner_id": "C014",
+      "client_order_ref": "PO-8829",
+      "date_order": "2026-06-02",
+      "state": "done"
+    },
+    {
+      "order_id": "O-890",
+      "partner_id": "C013",
+      "client_order_ref": "PO-8830",
+      "date_order": "2026-06-06",
+      "state": "open"
+    },
+    {
+      "order_id": "O-891",
+      "partner_id": "C006",
+      "client_order_ref": "PO-8831",
+      "date_order": "2026-06-25",
+      "state": "open"
+    },
+    {
+      "order_id": "O-892",
+      "partner_id": "C005",
+      "client_order_ref": "PO-8832",
+      "date_order": "2026-06-04",
+      "state": "open"
+    },
+    {
+      "order_id": "O-893",
+      "partner_id": "C005",
+      "client_order_ref": "PO-8833",
+      "date_order": "2026-06-18",
+      "state": "open"
+    },
+    {
+      "order_id": "O-894",
+      "partner_id": "C013",
+      "client_order_ref": "PO-8834",
+      "date_order": "2026-06-04",
+      "state": "open"
+    },
+    {
+      "order_id": "O-895",
+      "partner_id": "C014",
+      "client_order_ref": "PO-8835",
+      "date_order": "2026-06-19",
+      "state": "open"
+    },
+    {
+      "order_id": "O-896",
+      "partner_id": "C009",
+      "client_order_ref": "PO-8836",
+      "date_order": "2026-06-07",
+      "state": "done"
+    },
+    {
+      "order_id": "O-897",
+      "partner_id": "C015",
+      "client_order_ref": "PO-8837",
+      "date_order": "2026-06-21",
+      "state": "open"
+    },
+    {
+      "order_id": "O-898",
+      "partner_id": "C016",
+      "client_order_ref": "PO-8838",
+      "date_order": "2026-06-29",
+      "state": "done"
+    },
+    {
+      "order_id": "O-899",
+      "partner_id": "C017",
+      "client_order_ref": "PO-8839",
+      "date_order": "2026-06-04",
+      "state": "open"
+    },
+    {
+      "order_id": "O-900",
+      "partner_id": "C003",
+      "client_order_ref": "PO-8840",
+      "date_order": "2026-06-12",
+      "state": "done"
+    },
+    {
+      "order_id": "O-901",
+      "partner_id": "C010",
+      "client_order_ref": "PO-8841",
+      "date_order": "2026-05-30",
+      "state": "open"
+    },
+    {
+      "order_id": "O-902",
+      "partner_id": "C003",
+      "client_order_ref": "PO-8842",
+      "date_order": "2026-05-30",
+      "state": "done"
+    },
+    {
+      "order_id": "O-903",
+      "partner_id": "C012",
+      "client_order_ref": "PO-8843",
+      "date_order": "2026-06-21",
+      "state": "open"
+    },
+    {
+      "order_id": "O-904",
+      "partner_id": "C004",
+      "client_order_ref": "PO-8844",
+      "date_order": "2026-06-06",
+      "state": "open"
+    },
+    {
+      "order_id": "O-905",
+      "partner_id": "C016",
+      "client_order_ref": "PO-8845",
+      "date_order": "2026-06-16",
+      "state": "done"
+    },
+    {
+      "order_id": "O-906",
+      "partner_id": "C004",
+      "client_order_ref": "PO-8846",
+      "date_order": "2026-06-21",
+      "state": "done"
+    },
+    {
+      "order_id": "O-907",
+      "partner_id": "C004",
+      "client_order_ref": "PO-8847",
+      "date_order": "2026-06-16",
+      "state": "open"
+    },
+    {
+      "order_id": "O-908",
+      "partner_id": "C017",
+      "client_order_ref": "PO-8848",
+      "date_order": "2026-06-22",
+      "state": "open"
+    }
+  ],
+  "account.move": [
+    {
+      "move_id": "INV-7742",
+      "invoice_origin": "PO-8821",
+      "partner_id": "C001",
+      "amount_total": 186000,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7743",
+      "invoice_origin": "PO-8822",
+      "partner_id": "C002",
+      "amount_total": 14000,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7744",
+      "invoice_origin": "PO-8823",
+      "partner_id": "C003",
+      "amount_total": 22500,
+      "currency_id": "EUR",
+      "payment_state": "paid"
+    },
+    {
+      "move_id": "INV-7745",
+      "invoice_origin": "PO-8824",
+      "partner_id": "C004",
+      "amount_total": 37500,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7746",
+      "invoice_origin": "PO-8825",
+      "partner_id": "C007",
+      "amount_total": 111154,
+      "currency_id": "EUR",
+      "payment_state": "paid"
+    },
+    {
+      "move_id": "INV-7747",
+      "invoice_origin": "PO-8826",
+      "partner_id": "C015",
+      "amount_total": 114463,
+      "currency_id": "EUR",
+      "payment_state": "paid"
+    },
+    {
+      "move_id": "INV-7748",
+      "invoice_origin": "PO-8827",
+      "partner_id": "C012",
+      "amount_total": 77180,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7749",
+      "invoice_origin": "PO-8828",
+      "partner_id": "C014",
+      "amount_total": 61072,
+      "currency_id": "EUR",
+      "payment_state": "paid"
+    },
+    {
+      "move_id": "INV-7750",
+      "invoice_origin": "PO-8829",
+      "partner_id": "C014",
+      "amount_total": 60110,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7751",
+      "invoice_origin": "PO-8830",
+      "partner_id": "C013",
+      "amount_total": 8760,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7752",
+      "invoice_origin": "PO-8831",
+      "partner_id": "C006",
+      "amount_total": 81218,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7753",
+      "invoice_origin": "PO-8832",
+      "partner_id": "C005",
+      "amount_total": 24586,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7754",
+      "invoice_origin": "PO-8833",
+      "partner_id": "C005",
+      "amount_total": 110813,
+      "currency_id": "EUR",
+      "payment_state": "paid"
+    },
+    {
+      "move_id": "INV-7755",
+      "invoice_origin": "PO-8834",
+      "partner_id": "C013",
+      "amount_total": 42333,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7756",
+      "invoice_origin": "PO-8835",
+      "partner_id": "C014",
+      "amount_total": 79995,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7757",
+      "invoice_origin": "PO-8836",
+      "partner_id": "C009",
+      "amount_total": 98693,
+      "currency_id": "EUR",
+      "payment_state": "paid"
+    },
+    {
+      "move_id": "INV-7758",
+      "invoice_origin": "PO-8837",
+      "partner_id": "C015",
+      "amount_total": 29690,
+      "currency_id": "EUR",
+      "payment_state": "paid"
+    },
+    {
+      "move_id": "INV-7759",
+      "invoice_origin": "PO-8838",
+      "partner_id": "C016",
+      "amount_total": 33780,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7760",
+      "invoice_origin": "PO-8839",
+      "partner_id": "C017",
+      "amount_total": 43977,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7761",
+      "invoice_origin": "PO-8840",
+      "partner_id": "C003",
+      "amount_total": 55562,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7762",
+      "invoice_origin": "PO-8841",
+      "partner_id": "C010",
+      "amount_total": 22522,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7763",
+      "invoice_origin": "PO-8842",
+      "partner_id": "C003",
+      "amount_total": 13129,
+      "currency_id": "EUR",
+      "payment_state": "paid"
+    },
+    {
+      "move_id": "INV-7764",
+      "invoice_origin": "PO-8843",
+      "partner_id": "C012",
+      "amount_total": 3597,
+      "currency_id": "EUR",
+      "payment_state": "paid"
+    },
+    {
+      "move_id": "INV-7765",
+      "invoice_origin": "PO-8844",
+      "partner_id": "C004",
+      "amount_total": 72429,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7766",
+      "invoice_origin": "PO-8845",
+      "partner_id": "C016",
+      "amount_total": 64759,
+      "currency_id": "EUR",
+      "payment_state": "paid"
+    },
+    {
+      "move_id": "INV-7767",
+      "invoice_origin": "PO-8846",
+      "partner_id": "C004",
+      "amount_total": 97438,
+      "currency_id": "EUR",
+      "payment_state": "paid"
+    },
+    {
+      "move_id": "INV-7768",
+      "invoice_origin": "PO-8847",
+      "partner_id": "C004",
+      "amount_total": 47529,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    },
+    {
+      "move_id": "INV-7769",
+      "invoice_origin": "PO-8848",
+      "partner_id": "C017",
+      "amount_total": 75151,
+      "currency_id": "EUR",
+      "payment_state": "not_paid"
+    }
+  ],
+  "product.product": [
+    {
+      "product_id": "PHARMA-22",
+      "name": "Insulin batch",
+      "categ_id": "Cold-chain",
+      "x_temp_min": 2,
+      "x_temp_max": 8,
+      "list_price": 180
+    },
+    {
+      "product_id": "FOOD-19",
+      "name": "Fresh salmon",
+      "categ_id": "Cold-chain",
+      "x_temp_min": 0,
+      "x_temp_max": 4,
+      "list_price": 35
+    },
+    {
+      "product_id": "AUTO-77",
+      "name": "Brake components",
+      "categ_id": "Standard",
+      "x_temp_min": null,
+      "x_temp_max": null,
+      "list_price": 90
+    },
+    {
+      "product_id": "LAB-12",
+      "name": "Diagnostic reagent",
+      "categ_id": "Cold-chain",
+      "x_temp_min": 2,
+      "x_temp_max": 8,
+      "list_price": 250
+    },
+    {
+      "product_id": "FOOD-23",
+      "name": "Frozen vegetables",
+      "categ_id": "Cold-chain",
+      "x_temp_min": -18,
+      "x_temp_max": -12,
+      "list_price": 22
+    },
+    {
+      "product_id": "FOOD-31",
+      "name": "Yogurt pallet",
+      "categ_id": "Cold-chain",
+      "x_temp_min": 2,
+      "x_temp_max": 6,
+      "list_price": 18
+    },
+    {
+      "product_id": "PHARMA-41",
+      "name": "Vaccine vials",
+      "categ_id": "Cold-chain",
+      "x_temp_min": 2,
+      "x_temp_max": 8,
+      "list_price": 320
+    },
+    {
+      "product_id": "LAB-30",
+      "name": "Blood sample kit",
+      "categ_id": "Cold-chain",
+      "x_temp_min": 2,
+      "x_temp_max": 8,
+      "list_price": 140
+    },
+    {
+      "product_id": "AUTO-12",
+      "name": "Tire set",
+      "categ_id": "Standard",
+      "x_temp_min": null,
+      "x_temp_max": null,
+      "list_price": 75
+    },
+    {
+      "product_id": "AUTO-55",
+      "name": "Engine filter",
+      "categ_id": "Standard",
+      "x_temp_min": null,
+      "x_temp_max": null,
+      "list_price": 40
+    },
+    {
+      "product_id": "IND-08",
+      "name": "Steel fittings",
+      "categ_id": "Standard",
+      "x_temp_min": null,
+      "x_temp_max": null,
+      "list_price": 60
+    },
+    {
+      "product_id": "ELEC-14",
+      "name": "Control boards",
+      "categ_id": "Standard",
+      "x_temp_min": null,
+      "x_temp_max": null,
+      "list_price": 210
+    }
+  ],
+  "res.partner.suppliers": [
+    {
+      "partner_id": "SUP-01",
+      "name": "TotalEnergies Fleet",
+      "customer_rank": 0,
+      "supplier_rank": 1,
+      "category": "Fuel",
+      "property_payment_term_id": 60
+    },
+    {
+      "partner_id": "SUP-02",
+      "name": "Arval Leasing",
+      "customer_rank": 0,
+      "supplier_rank": 1,
+      "category": "Leasing",
+      "property_payment_term_id": 45
+    },
+    {
+      "partner_id": "SUP-03",
+      "name": "Michelin Pro",
+      "customer_rank": 0,
+      "supplier_rank": 1,
+      "category": "Tires",
+      "property_payment_term_id": 30
+    },
+    {
+      "partner_id": "SUP-04",
+      "name": "EuroMaster Maintenance",
+      "customer_rank": 0,
+      "supplier_rank": 1,
+      "category": "Maintenance",
+      "property_payment_term_id": 30
+    },
+    {
+      "partner_id": "SUP-05",
+      "name": "Carrier Transicold",
+      "customer_rank": 0,
+      "supplier_rank": 1,
+      "category": "Refrigeration maintenance",
+      "property_payment_term_id": 45
+    },
+    {
+      "partner_id": "SUP-06",
+      "name": "Antargaz",
+      "customer_rank": 0,
+      "supplier_rank": 1,
+      "category": "Fuel",
+      "property_payment_term_id": 30
+    },
+    {
+      "partner_id": "SUP-07",
+      "name": "Norauto Pro",
+      "customer_rank": 0,
+      "supplier_rank": 1,
+      "category": "Maintenance",
+      "property_payment_term_id": 60
+    },
+    {
+      "partner_id": "SUP-08",
+      "name": "Bridgestone Fleet",
+      "customer_rank": 0,
+      "supplier_rank": 1,
+      "category": "Tires",
+      "property_payment_term_id": 45
+    }
+  ],
+  "account.payment.term": [
+    {
+      "name": "Immediate",
+      "days": 0
+    },
+    {
+      "name": "30 Days",
+      "days": 30
+    },
+    {
+      "name": "45 Days",
+      "days": 45
+    },
+    {
+      "name": "60 Days",
+      "days": 60
+    }
+  ]
+}

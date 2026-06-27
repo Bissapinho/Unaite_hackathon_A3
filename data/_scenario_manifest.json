@@ -1,0 +1,65 @@
+{
+  "customers": [
+    "C001",
+    "C002",
+    "C003",
+    "C004"
+  ],
+  "products": [
+    "PHARMA-22",
+    "FOOD-19",
+    "AUTO-77",
+    "LAB-12"
+  ],
+  "orders": [
+    "O-881",
+    "O-882",
+    "O-883",
+    "O-884"
+  ],
+  "po_numbers": [
+    "PO-8821",
+    "PO-8822",
+    "PO-8823",
+    "PO-8824"
+  ],
+  "shipments": [
+    "SH-2049",
+    "SH-2050",
+    "SH-2051",
+    "SH-2052"
+  ],
+  "carriers": [
+    "CAR-COLDROAD",
+    "CAR-FRESHMOVE",
+    "CAR-ROADX",
+    "CAR-COLDFAST",
+    "CAR-NORTHLOG"
+  ],
+  "warehouses": [
+    "WH-1",
+    "WH-2"
+  ],
+  "contracts": [
+    "CT-001",
+    "CT-004"
+  ],
+  "invoices": [
+    "INV-7742",
+    "INV-7743",
+    "INV-7744",
+    "INV-7745"
+  ],
+  "emails": [
+    "EM-001",
+    "EM-002",
+    "EM-003",
+    "EM-004",
+    "EM-007",
+    "EM-009"
+  ],
+  "hot_shipment": "SH-2049",
+  "hot_invoice": "INV-7742",
+  "hot_customer": "C001",
+  "hot_po": "PO-8821"
+}

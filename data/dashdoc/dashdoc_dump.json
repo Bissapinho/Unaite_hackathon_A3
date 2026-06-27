@@ -1,0 +1,868 @@
+{
+  "transports": [
+    {
+      "uid": "SH-2049",
+      "status": "Delayed",
+      "loading_address": "Paris WH-1, Paris",
+      "unloading_address": "Lyon Hospital Distribution Center",
+      "carrier": {
+        "name": "ColdRoad"
+      },
+      "requested_vehicle": "frigo",
+      "deliveries": [
+        {
+          "sku": "PHARMA-22",
+          "quantity": 1000
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-28T00:00:00"
+      },
+      "is_cold_chain": true,
+      "temperature_setpoint": {
+        "min": 2,
+        "max": 8
+      }
+    },
+    {
+      "uid": "SH-2050",
+      "status": "In transit",
+      "loading_address": "Paris WH-1, Paris",
+      "unloading_address": "Marseille",
+      "carrier": {
+        "name": "FreshMove"
+      },
+      "requested_vehicle": "frigo",
+      "deliveries": [
+        {
+          "sku": "FOOD-19",
+          "quantity": 400
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-27T20:00:00"
+      },
+      "is_cold_chain": true,
+      "temperature_setpoint": {
+        "min": 0,
+        "max": 4
+      }
+    },
+    {
+      "uid": "SH-2051",
+      "status": "In transit",
+      "loading_address": "Paris WH-1, Paris",
+      "unloading_address": "Lille",
+      "carrier": {
+        "name": "RoadX"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "AUTO-77",
+          "quantity": 250
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-28T12:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    },
+    {
+      "uid": "SH-2052",
+      "status": "Delayed",
+      "loading_address": "Lyon WH-2, Lyon",
+      "unloading_address": "Lyon",
+      "carrier": {
+        "name": "ColdRoad"
+      },
+      "requested_vehicle": "frigo",
+      "deliveries": [
+        {
+          "sku": "LAB-12",
+          "quantity": 150
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-27T18:00:00"
+      },
+      "is_cold_chain": true,
+      "temperature_setpoint": {
+        "min": 2,
+        "max": 8
+      }
+    },
+    {
+      "uid": "SH-2053",
+      "status": "Delivered",
+      "loading_address": "Marseille WH-3, Marseille",
+      "unloading_address": "Rennes",
+      "carrier": {
+        "name": "ColdRoad"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "AUTO-12",
+          "quantity": 500
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-17T09:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    },
+    {
+      "uid": "SH-2054",
+      "status": "Delivered",
+      "loading_address": "Lille WH-4, Lille",
+      "unloading_address": "Rennes",
+      "carrier": {
+        "name": "NorthLog"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "ELEC-14",
+          "quantity": 50
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-15T11:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    },
+    {
+      "uid": "SH-2055",
+      "status": "In transit",
+      "loading_address": "Paris WH-1, Paris",
+      "unloading_address": "Bordeaux",
+      "carrier": {
+        "name": "Geli Trans"
+      },
+      "requested_vehicle": "frigo",
+      "deliveries": [
+        {
+          "sku": "FOOD-23",
+          "quantity": 400
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-13T15:00:00"
+      },
+      "is_cold_chain": true,
+      "temperature_setpoint": {
+        "min": -18,
+        "max": -12
+      }
+    },
+    {
+      "uid": "SH-2056",
+      "status": "Delivered",
+      "loading_address": "Lyon WH-2, Lyon",
+      "unloading_address": "Nantes",
+      "carrier": {
+        "name": "Geli Trans"
+      },
+      "requested_vehicle": "frigo",
+      "deliveries": [
+        {
+          "sku": "FOOD-31",
+          "quantity": 50
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-02T11:00:00"
+      },
+      "is_cold_chain": true,
+      "temperature_setpoint": {
+        "min": 2,
+        "max": 6
+      }
+    },
+    {
+      "uid": "SH-2057",
+      "status": "Planned",
+      "loading_address": "Marseille WH-3, Marseille",
+      "unloading_address": "Nice",
+      "carrier": {
+        "name": "ColdRoad"
+      },
+      "requested_vehicle": "frigo",
+      "deliveries": [
+        {
+          "sku": "PHARMA-41",
+          "quantity": 400
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-05T15:00:00"
+      },
+      "is_cold_chain": true,
+      "temperature_setpoint": {
+        "min": 2,
+        "max": 8
+      }
+    },
+    {
+      "uid": "SH-2058",
+      "status": "Delayed",
+      "loading_address": "Lyon WH-2, Lyon",
+      "unloading_address": "Strasbourg",
+      "carrier": {
+        "name": "RoadX"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "AUTO-77",
+          "quantity": 400
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-11T15:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    },
+    {
+      "uid": "SH-2059",
+      "status": "Delayed",
+      "loading_address": "Lille WH-4, Lille",
+      "unloading_address": "Nice",
+      "carrier": {
+        "name": "NorthLog"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "IND-08",
+          "quantity": 120
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-27T19:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    },
+    {
+      "uid": "SH-2060",
+      "status": "Planned",
+      "loading_address": "Lille WH-4, Lille",
+      "unloading_address": "Lyon",
+      "carrier": {
+        "name": "Rapid France"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "AUTO-77",
+          "quantity": 200
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-07T15:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    },
+    {
+      "uid": "SH-2061",
+      "status": "Delivered",
+      "loading_address": "Marseille WH-3, Marseille",
+      "unloading_address": "Rouen",
+      "carrier": {
+        "name": "Geli Trans"
+      },
+      "requested_vehicle": "frigo",
+      "deliveries": [
+        {
+          "sku": "FOOD-31",
+          "quantity": 150
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-22T15:00:00"
+      },
+      "is_cold_chain": true,
+      "temperature_setpoint": {
+        "min": 2,
+        "max": 6
+      }
+    },
+    {
+      "uid": "SH-2062",
+      "status": "In transit",
+      "loading_address": "Lille WH-4, Lille",
+      "unloading_address": "Bordeaux",
+      "carrier": {
+        "name": "Geli Trans"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "AUTO-77",
+          "quantity": 200
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-05T15:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    },
+    {
+      "uid": "SH-2063",
+      "status": "Planned",
+      "loading_address": "Lyon WH-2, Lyon",
+      "unloading_address": "Rouen",
+      "carrier": {
+        "name": "FreshMove"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "AUTO-55",
+          "quantity": 400
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-21T09:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    },
+    {
+      "uid": "SH-2064",
+      "status": "Delivered",
+      "loading_address": "Lille WH-4, Lille",
+      "unloading_address": "Paris",
+      "carrier": {
+        "name": "NorthLog"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "AUTO-77",
+          "quantity": 400
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-12T19:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    },
+    {
+      "uid": "SH-2065",
+      "status": "Delivered",
+      "loading_address": "Lille WH-4, Lille",
+      "unloading_address": "Dijon",
+      "carrier": {
+        "name": "ColdFast Express"
+      },
+      "requested_vehicle": "frigo",
+      "deliveries": [
+        {
+          "sku": "LAB-12",
+          "quantity": 400
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-23T17:00:00"
+      },
+      "is_cold_chain": true,
+      "temperature_setpoint": {
+        "min": 2,
+        "max": 8
+      }
+    },
+    {
+      "uid": "SH-2066",
+      "status": "Planned",
+      "loading_address": "Marseille WH-3, Marseille",
+      "unloading_address": "Paris",
+      "carrier": {
+        "name": "NorthLog"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "AUTO-12",
+          "quantity": 50
+        }
+      ],
+      "tracking": {
+        "eta": "2026-07-02T17:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    },
+    {
+      "uid": "SH-2067",
+      "status": "Planned",
+      "loading_address": "Paris WH-1, Paris",
+      "unloading_address": "Rouen",
+      "carrier": {
+        "name": "FreshMove"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "AUTO-12",
+          "quantity": 120
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-07T11:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    },
+    {
+      "uid": "SH-2068",
+      "status": "Delayed",
+      "loading_address": "Lille WH-4, Lille",
+      "unloading_address": "Rennes",
+      "carrier": {
+        "name": "FreshMove"
+      },
+      "requested_vehicle": "frigo",
+      "deliveries": [
+        {
+          "sku": "FOOD-23",
+          "quantity": 100
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-18T11:00:00"
+      },
+      "is_cold_chain": true,
+      "temperature_setpoint": {
+        "min": -18,
+        "max": -12
+      }
+    },
+    {
+      "uid": "SH-2069",
+      "status": "Delayed",
+      "loading_address": "Lille WH-4, Lille",
+      "unloading_address": "Nice",
+      "carrier": {
+        "name": "Rapid France"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "AUTO-55",
+          "quantity": 100
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-04T19:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    },
+    {
+      "uid": "SH-2070",
+      "status": "Delivered",
+      "loading_address": "Lyon WH-2, Lyon",
+      "unloading_address": "Rennes",
+      "carrier": {
+        "name": "Geli Trans"
+      },
+      "requested_vehicle": "frigo",
+      "deliveries": [
+        {
+          "sku": "PHARMA-41",
+          "quantity": 500
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-03T17:00:00"
+      },
+      "is_cold_chain": true,
+      "temperature_setpoint": {
+        "min": 2,
+        "max": 8
+      }
+    },
+    {
+      "uid": "SH-2071",
+      "status": "Delivered",
+      "loading_address": "Lille WH-4, Lille",
+      "unloading_address": "Marseille",
+      "carrier": {
+        "name": "FreshMove"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "AUTO-77",
+          "quantity": 400
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-27T19:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    },
+    {
+      "uid": "SH-2072",
+      "status": "In transit",
+      "loading_address": "Lyon WH-2, Lyon",
+      "unloading_address": "Nice",
+      "carrier": {
+        "name": "FreshMove"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "ELEC-14",
+          "quantity": 150
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-12T15:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    },
+    {
+      "uid": "SH-2073",
+      "status": "Delivered",
+      "loading_address": "Lyon WH-2, Lyon",
+      "unloading_address": "Rennes",
+      "carrier": {
+        "name": "ColdFast Express"
+      },
+      "requested_vehicle": "frigo",
+      "deliveries": [
+        {
+          "sku": "PHARMA-22",
+          "quantity": 120
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-17T19:00:00"
+      },
+      "is_cold_chain": true,
+      "temperature_setpoint": {
+        "min": 2,
+        "max": 8
+      }
+    },
+    {
+      "uid": "SH-2074",
+      "status": "Delivered",
+      "loading_address": "Marseille WH-3, Marseille",
+      "unloading_address": "Rouen",
+      "carrier": {
+        "name": "NorthLog"
+      },
+      "requested_vehicle": "frigo",
+      "deliveries": [
+        {
+          "sku": "LAB-30",
+          "quantity": 500
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-23T11:00:00"
+      },
+      "is_cold_chain": true,
+      "temperature_setpoint": {
+        "min": 2,
+        "max": 8
+      }
+    },
+    {
+      "uid": "SH-2075",
+      "status": "Delayed",
+      "loading_address": "Lille WH-4, Lille",
+      "unloading_address": "Toulouse",
+      "carrier": {
+        "name": "Froid Express"
+      },
+      "requested_vehicle": "frigo",
+      "deliveries": [
+        {
+          "sku": "FOOD-31",
+          "quantity": 150
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-19T15:00:00"
+      },
+      "is_cold_chain": true,
+      "temperature_setpoint": {
+        "min": 2,
+        "max": 6
+      }
+    },
+    {
+      "uid": "SH-2076",
+      "status": "Planned",
+      "loading_address": "Lille WH-4, Lille",
+      "unloading_address": "Dijon",
+      "carrier": {
+        "name": "Geli Trans"
+      },
+      "requested_vehicle": "standard",
+      "deliveries": [
+        {
+          "sku": "AUTO-55",
+          "quantity": 500
+        }
+      ],
+      "tracking": {
+        "eta": "2026-06-26T11:00:00"
+      },
+      "is_cold_chain": false,
+      "temperature_setpoint": null
+    }
+  ],
+  "vehicles": [
+    {
+      "license_plate": "033-TLC-96",
+      "type": "frigo",
+      "year": 2021,
+      "is_refrigerated": true
+    },
+    {
+      "license_plate": "100-URJ-96",
+      "type": "fourgon",
+      "year": 2022,
+      "is_refrigerated": false
+    },
+    {
+      "license_plate": "817-GYK-62",
+      "type": "porteur frigo",
+      "year": 2024,
+      "is_refrigerated": true
+    },
+    {
+      "license_plate": "941-QKQ-23",
+      "type": "frigo",
+      "year": 2024,
+      "is_refrigerated": true
+    },
+    {
+      "license_plate": "GD-324-UF",
+      "type": "fourgon",
+      "year": 2019,
+      "is_refrigerated": false
+    },
+    {
+      "license_plate": "738-TZQ-80",
+      "type": "frigo",
+      "year": 2021,
+      "is_refrigerated": true
+    },
+    {
+      "license_plate": "HR-335-BI",
+      "type": "tautliner",
+      "year": 2024,
+      "is_refrigerated": false
+    },
+    {
+      "license_plate": "075-QEF-72",
+      "type": "porteur frigo",
+      "year": 2019,
+      "is_refrigerated": true
+    },
+    {
+      "license_plate": "QI-771-TW",
+      "type": "semi",
+      "year": 2021,
+      "is_refrigerated": false
+    },
+    {
+      "license_plate": "641-NVD-84",
+      "type": "tautliner",
+      "year": 2017,
+      "is_refrigerated": false
+    }
+  ],
+  "drivers": [
+    {
+      "driver_id": "DRV-001",
+      "name": "Thomas Girard",
+      "certifications": [
+        "ADR"
+      ]
+    },
+    {
+      "driver_id": "DRV-002",
+      "name": "Mehdi Faure",
+      "certifications": [
+        "FIMO"
+      ]
+    },
+    {
+      "driver_id": "DRV-003",
+      "name": "David Olivier",
+      "certifications": [
+        "frigo"
+      ]
+    },
+    {
+      "driver_id": "DRV-004",
+      "name": "Christelle-Pauline Guyon",
+      "certifications": [
+        "frigo",
+        "ADR"
+      ]
+    },
+    {
+      "driver_id": "DRV-005",
+      "name": "Adèle Bailly",
+      "certifications": [
+        "ADR",
+        "FIMO",
+        "frigo"
+      ]
+    },
+    {
+      "driver_id": "DRV-006",
+      "name": "Laurent Bailly-Bazin",
+      "certifications": [
+        "frigo",
+        "ADR",
+        "FIMO"
+      ]
+    },
+    {
+      "driver_id": "DRV-007",
+      "name": "Aimée Moreno-Jacquot",
+      "certifications": [
+        "frigo",
+        "FIMO",
+        "ADR"
+      ]
+    },
+    {
+      "driver_id": "DRV-008",
+      "name": "Céline Garcia",
+      "certifications": [
+        "ADR"
+      ]
+    },
+    {
+      "driver_id": "DRV-009",
+      "name": "Alexandrie Normand",
+      "certifications": [
+        "frigo"
+      ]
+    },
+    {
+      "driver_id": "DRV-010",
+      "name": "Amélie Lagarde-Dufour",
+      "certifications": [
+        "frigo"
+      ]
+    },
+    {
+      "driver_id": "DRV-011",
+      "name": "Martine Ruiz",
+      "certifications": [
+        "frigo",
+        "ADR"
+      ]
+    },
+    {
+      "driver_id": "DRV-012",
+      "name": "Raymond Gimenez",
+      "certifications": [
+        "FIMO",
+        "frigo"
+      ]
+    },
+    {
+      "driver_id": "DRV-013",
+      "name": "Roland Ramos",
+      "certifications": [
+        "FIMO",
+        "frigo",
+        "ADR"
+      ]
+    },
+    {
+      "driver_id": "DRV-014",
+      "name": "Luc Lévy-Mathieu",
+      "certifications": [
+        "ADR",
+        "FIMO",
+        "frigo"
+      ]
+    }
+  ],
+  "carriers": [
+    {
+      "carrier_id": "CAR-COLDROAD",
+      "name": "ColdRoad",
+      "service_type": "Cold-chain",
+      "reliability_score": 0.78
+    },
+    {
+      "carrier_id": "CAR-FRESHMOVE",
+      "name": "FreshMove",
+      "service_type": "Cold-chain",
+      "reliability_score": 0.88
+    },
+    {
+      "carrier_id": "CAR-ROADX",
+      "name": "RoadX",
+      "service_type": "Standard",
+      "reliability_score": 0.82
+    },
+    {
+      "carrier_id": "CAR-COLDFAST",
+      "name": "ColdFast Express",
+      "service_type": "Cold-chain (emergency)",
+      "reliability_score": 0.91
+    },
+    {
+      "carrier_id": "CAR-NORTHLOG",
+      "name": "NorthLog",
+      "service_type": "Cold-chain",
+      "reliability_score": 0.8
+    },
+    {
+      "carrier_id": "CAR-RAPIDFR",
+      "name": "Rapid France",
+      "service_type": "Standard",
+      "reliability_score": 0.68
+    },
+    {
+      "carrier_id": "CAR-FROIDEXP",
+      "name": "Froid Express",
+      "service_type": "Cold-chain",
+      "reliability_score": 0.88
+    },
+    {
+      "carrier_id": "CAR-TRANSALP",
+      "name": "TransAlpes",
+      "service_type": "Standard",
+      "reliability_score": 0.83
+    },
+    {
+      "carrier_id": "CAR-GELITRANS",
+      "name": "Geli Trans",
+      "service_type": "Cold-chain",
+      "reliability_score": 0.92
+    },
+    {
+      "carrier_id": "CAR-HEXLOG",
+      "name": "Hexa Logistics",
+      "service_type": "Standard",
+      "reliability_score": 0.66
+    }
+  ]
+}

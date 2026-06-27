@@ -1,0 +1,155 @@
+[
+  {
+    "id": "EM-001",
+    "from": "operations@coldroad-logistics.com",
+    "to": "ops@ourlogisticsco.com",
+    "subject": "Delay notification - Shipment SH-2049",
+    "body": "Truck assigned to shipment SH-2049 has broken down near Lyon. Estimated delay: 6 hours. Refrigeration unit battery backup is expected to last 3 more hours.",
+    "received_at": "2026-06-27T09:12:00",
+    "labels": [
+      "carrier",
+      "delay",
+      "SH-2049"
+    ]
+  },
+  {
+    "id": "EM-002",
+    "from": "procurement@medpharma.com",
+    "to": "ops@ourlogisticsco.com",
+    "subject": "URGENT - PO-8821 delivery confirmation",
+    "body": "Please confirm that PO-8821 will arrive before 18:00 today. This shipment is needed for tomorrow morning hospital distribution.",
+    "received_at": "2026-06-27T09:45:00",
+    "labels": [
+      "customer",
+      "urgent",
+      "PO-8821"
+    ]
+  },
+  {
+    "id": "EM-003",
+    "from": "sarah.martin@ourlogisticsco.com",
+    "to": "ops@ourlogisticsco.com",
+    "subject": "MedPharma is strategic",
+    "body": "MedPharma is one of our top 5 accounts. Any delivery risk should be escalated immediately.",
+    "received_at": "2026-06-27T10:02:00",
+    "labels": [
+      "internal",
+      "strategic"
+    ]
+  },
+  {
+    "id": "EM-004",
+    "from": "dispatch@coldfast-express.com",
+    "to": "ops@ourlogisticsco.com",
+    "subject": "Emergency cold-chain capacity Paris to Lyon",
+    "body": "We have emergency refrigerated capacity available today for Paris to Lyon. Max capacity: 20 pallets. Emergency rate: 2,400 EUR.",
+    "received_at": "2026-06-27T10:20:00",
+    "labels": [
+      "carrier",
+      "backup",
+      "emergency"
+    ]
+  },
+  {
+    "id": "EM-007",
+    "from": "sarah.martin@ourlogisticsco.com",
+    "to": "jules.bernard@ourlogisticsco.com",
+    "subject": "Escalade risque livraison MedPharma (SH-2049)",
+    "body": "Bonjour Jules,\n\nLe lot insuline pour MedPharma (PO-8821) est en retard, la deadline 18:00 ne sera pas tenue. Vu l'enjeu sur ce compte, je te transmets le dossier pour validation : peux-tu arbitrer l'option de secours ColdFast Express ?\n\nJe reste en première ligne côté client.\n\nCordialement,\nSarah Martin\nResponsable Grands Comptes — ourlogisticsco.com",
+    "received_at": "2026-06-27T10:35:00",
+    "labels": [
+      "internal",
+      "escalation",
+      "SH-2049"
+    ]
+  },
+  {
+    "id": "EM-009",
+    "from": "jules.bernard@ourlogisticsco.com",
+    "to": "philippe.caron@ourlogisticsco.com",
+    "subject": "Pour validation DG : secours MedPharma",
+    "body": "Philippe,\n\nSuite au retard MedPharma remonté par Sarah Martin (ma Responsable Grands Comptes), je valide le recours au transporteur de secours. Comme la pénalité contractuelle est lourde, je remonte la décision à ton niveau pour accord final.\n\nBien à toi,\nJules Bernard\nDirecteur Commercial — ourlogisticsco.com",
+    "received_at": "2026-06-27T10:48:00",
+    "labels": [
+      "internal",
+      "escalation",
+      "SH-2049"
+    ]
+  },
+  {
+    "id": "EM-005",
+    "from": "logistics@freshmarket.fr",
+    "to": "ops@ourlogisticsco.com",
+    "subject": "Delivery confirmation PO-8822",
+    "body": "Thanks, we received the salmon delivery on time. Everything looks good.",
+    "received_at": "2026-06-27T08:30:00",
+    "labels": [
+      "customer",
+      "routine"
+    ]
+  },
+  {
+    "id": "EM-006",
+    "from": "accounting@autoparts-sas.fr",
+    "to": "ops@ourlogisticsco.com",
+    "subject": "Question about invoice payment terms",
+    "body": "Could you confirm the payment terms on our latest invoice? Thanks.",
+    "received_at": "2026-06-27T11:05:00",
+    "labels": [
+      "billing",
+      "routine"
+    ]
+  },
+  {
+    "id": "EM-008",
+    "from": "karim.benali@ourlogisticsco.com",
+    "to": "thomas.girard@ourlogisticsco.com",
+    "subject": "Tournée de demain - prise en charge",
+    "body": "Thomas,\n\nPeux-tu prendre la tournée frigo Paris->Lille demain matin ? Tu es mon chauffeur le plus dispo sur ce créneau. Confirme-moi.\n\nKarim Benali\nResponsable d'Exploitation — ourlogisticsco.com\n\n----- Réponse -----\nOk Karim, c'est noté, je m'en occupe.\nThomas Girard\nChauffeur — ourlogisticsco.com",
+    "received_at": "2026-06-27T08:55:00",
+    "labels": [
+      "internal",
+      "ops",
+      "routine"
+    ]
+  },
+  {
+    "id": "EM-010",
+    "from": "nadia.renard@ourlogisticsco.com",
+    "to": "karim.benali@ourlogisticsco.com",
+    "subject": "Planning chauffeurs semaine prochaine",
+    "body": "Karim,\n\nJe te délègue le bouclage du planning chauffeurs de la semaine prochaine ; transmets-moi la version finale vendredi.\n\nNadia Renard\nDirectrice de l'Exploitation — ourlogisticsco.com",
+    "received_at": "2026-06-27T07:40:00",
+    "labels": [
+      "internal",
+      "ops",
+      "routine"
+    ]
+  },
+  {
+    "id": "EM-011",
+    "from": "nathalie.roux@ourlogisticsco.com",
+    "to": "sophie.lambert@ourlogisticsco.com",
+    "subject": "Relances clients - pour validation",
+    "body": "Sophie,\n\nJe te transmets le tableau des relances clients pour validation avant envoi. Le délai d'encaissement se tend ce mois-ci.\n\nNathalie Roux\nComptable — ourlogisticsco.com\n\n----- Réponse -----\nMerci Nathalie, je valide et je remonte le point trésorerie à Philippe Caron, notre Directeur Général.\nSophie Lambert\nResponsable Comptabilité — ourlogisticsco.com",
+    "received_at": "2026-06-27T11:30:00",
+    "labels": [
+      "internal",
+      "finance",
+      "routine"
+    ]
+  },
+  {
+    "id": "EM-012",
+    "from": "olivier.mercier@ourlogisticsco.com",
+    "to": "ops@ourlogisticsco.com",
+    "subject": "Mise à jour annuaire interne",
+    "body": "Bonjour à tous,\n\nL'annuaire interne a été mis à jour (postes et services). Toute correction est à me remonter ; je transmets ensuite à Philippe Caron, Directeur Général.\n\nOlivier Mercier\nResponsable RH — ourlogisticsco.com",
+    "received_at": "2026-06-27T12:10:00",
+    "labels": [
+      "internal",
+      "rh",
+      "routine"
+    ]
+  }
+]
