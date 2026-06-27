@@ -70,8 +70,6 @@ def _write_doc(path: pathlib.Path, title: str, intro: str, lines: list[str]) -> 
         c.drawString(x, y, line)
         y -= 8 * mm
 
-    c.setFont(FONT, 8)
-    c.drawString(x, 20 * mm, "Generated from canonical source of truth — scenario SH-2049.")
     c.showPage()
     c.save()
 

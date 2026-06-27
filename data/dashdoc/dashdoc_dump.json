@@ -633,61 +633,71 @@
       "license_plate": "033-TLC-96",
       "type": "frigo",
       "year": 2021,
-      "is_refrigerated": true
+      "is_refrigerated": true,
+      "carrier_id": "CAR-RAPIDFR"
     },
     {
       "license_plate": "100-URJ-96",
       "type": "fourgon",
       "year": 2022,
-      "is_refrigerated": false
+      "is_refrigerated": false,
+      "carrier_id": "CAR-HEXLOG"
     },
     {
       "license_plate": "817-GYK-62",
       "type": "porteur frigo",
       "year": 2024,
-      "is_refrigerated": true
+      "is_refrigerated": true,
+      "carrier_id": "CAR-COLDFAST"
     },
     {
       "license_plate": "941-QKQ-23",
       "type": "frigo",
       "year": 2024,
-      "is_refrigerated": true
+      "is_refrigerated": true,
+      "carrier_id": "CAR-RAPIDFR"
     },
     {
       "license_plate": "GD-324-UF",
       "type": "fourgon",
       "year": 2019,
-      "is_refrigerated": false
+      "is_refrigerated": false,
+      "carrier_id": "CAR-ROADX"
     },
     {
       "license_plate": "738-TZQ-80",
       "type": "frigo",
       "year": 2021,
-      "is_refrigerated": true
+      "is_refrigerated": true,
+      "carrier_id": "CAR-ROADX"
     },
     {
       "license_plate": "HR-335-BI",
       "type": "tautliner",
       "year": 2024,
-      "is_refrigerated": false
+      "is_refrigerated": false,
+      "carrier_id": "CAR-ROADX"
     },
     {
       "license_plate": "075-QEF-72",
       "type": "porteur frigo",
       "year": 2019,
-      "is_refrigerated": true
+      "is_refrigerated": true,
+      "carrier_id": "CAR-FROIDEXP"
     },
     {
       "license_plate": "QI-771-TW",
       "type": "semi",
       "year": 2021,
-      "is_refrigerated": false
+      "is_refrigerated": false,
+      "carrier_id": "CAR-GELITRANS"
     },
     {
       "license_plate": "641-NVD-84",
       "type": "tautliner",
       "year": 2017,
-      "is_refrigerated": false
+      "is_refrigerated": false,
+      "carrier_id": "CAR-FRESHMOVE"
     }
   ],
   "drivers": [
@@ -696,21 +706,24 @@
       "name": "Thomas Girard",
       "certifications": [
         "ADR"
-      ]
+      ],
+      "carrier_id": "CAR-FRESHMOVE"
     },
     {
       "driver_id": "DRV-002",
       "name": "Mehdi Faure",
       "certifications": [
         "FIMO"
-      ]
+      ],
+      "carrier_id": "CAR-COLDROAD"
     },
     {
       "driver_id": "DRV-003",
       "name": "David Olivier",
       "certifications": [
         "frigo"
-      ]
+      ],
+      "carrier_id": "CAR-RAPIDFR"
     },
     {
       "driver_id": "DRV-004",
@@ -718,7 +731,8 @@
       "certifications": [
         "frigo",
         "ADR"
-      ]
+      ],
+      "carrier_id": "CAR-NORTHLOG"
     },
     {
       "driver_id": "DRV-005",
@@ -727,7 +741,8 @@
         "ADR",
         "FIMO",
         "frigo"
-      ]
+      ],
+      "carrier_id": "CAR-TRANSALP"
     },
     {
       "driver_id": "DRV-006",
@@ -736,7 +751,8 @@
         "frigo",
         "ADR",
         "FIMO"
-      ]
+      ],
+      "carrier_id": "CAR-FRESHMOVE"
     },
     {
       "driver_id": "DRV-007",
@@ -745,28 +761,32 @@
         "frigo",
         "FIMO",
         "ADR"
-      ]
+      ],
+      "carrier_id": "CAR-NORTHLOG"
     },
     {
       "driver_id": "DRV-008",
       "name": "Céline Garcia",
       "certifications": [
         "ADR"
-      ]
+      ],
+      "carrier_id": "CAR-TRANSALP"
     },
     {
       "driver_id": "DRV-009",
       "name": "Alexandrie Normand",
       "certifications": [
         "frigo"
-      ]
+      ],
+      "carrier_id": "CAR-HEXLOG"
     },
     {
       "driver_id": "DRV-010",
       "name": "Amélie Lagarde-Dufour",
       "certifications": [
         "frigo"
-      ]
+      ],
+      "carrier_id": "CAR-COLDROAD"
     },
     {
       "driver_id": "DRV-011",
@@ -774,7 +794,8 @@
       "certifications": [
         "frigo",
         "ADR"
-      ]
+      ],
+      "carrier_id": "CAR-GELITRANS"
     },
     {
       "driver_id": "DRV-012",
@@ -782,7 +803,8 @@
       "certifications": [
         "FIMO",
         "frigo"
-      ]
+      ],
+      "carrier_id": "CAR-COLDROAD"
     },
     {
       "driver_id": "DRV-013",
@@ -791,7 +813,8 @@
         "FIMO",
         "frigo",
         "ADR"
-      ]
+      ],
+      "carrier_id": "CAR-COLDFAST"
     },
     {
       "driver_id": "DRV-014",
@@ -800,7 +823,8 @@
         "ADR",
         "FIMO",
         "frigo"
-      ]
+      ],
+      "carrier_id": "CAR-NORTHLOG"
     }
   ],
   "carriers": [

@@ -75,6 +75,7 @@ def build_dump() -> dict:
                 "type": v["type"],
                 "year": v["year"],
                 "is_refrigerated": v["is_refrigerated"],
+                "carrier_id": v["carrier_id"],
             }
             for v in C.VEHICLES
         ],
@@ -83,6 +84,7 @@ def build_dump() -> dict:
                 "driver_id": d["driver_id"],
                 "name": d["name"],
                 "certifications": d["certifications"],
+                "carrier_id": d["carrier_id"],
             }
             for d in C.DRIVERS
         ],

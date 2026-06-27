@@ -1,22 +1,27 @@
 """Serveur MCP mock (LECTURE SEULE) pour la boite email.
 
-Transport: stdio. Lit data/emails/emails.json au demarrage et expose des
-outils de consultation et de recherche des emails.
+Transport: stdio. Parse les .eml bruts de data/emails/raw/ au demarrage
+(via le parser eml_to_json) et expose des outils de consultation et de
+recherche des emails. Il n'y a plus de emails.json : les .eml sont la
+source de verite (l'extraction se fait depuis l'email brut, comme en vrai).
 """
 
-import json
 import pathlib
+import sys
 
 from mcp.server.fastmcp import FastMCP
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-DUMP_PATH = ROOT / "data" / "emails" / "emails.json"
+sys.path.insert(0, str(ROOT))
+
+from data.emails.eml_to_json import load_emails  # noqa: E402
+
+RAW_DIR = ROOT / "data" / "emails" / "raw"
 
 
 def _load() -> list:
-    """Charge le dump emails depuis le disque (une fois, en cache module)."""
-    with DUMP_PATH.open(encoding="utf-8") as fh:
-        return json.load(fh)
+    """Charge les emails en parsant les .eml bruts (une fois, en cache module)."""
+    return load_emails(RAW_DIR)
 
 
 _DATA = _load()

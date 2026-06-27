@@ -72,7 +72,7 @@ sur stdin/stdout (il ne "rend pas la main" tant qu'aucun EOF/client n'est là).
 - `list_products()` -> `[ {"product_id": "PHARMA-22", "name": "Insulin batch", "categ_id": "Cold-chain", "x_temp_min": 2, "x_temp_max": 8, "list_price": 180}, ... ]`
 - `list_suppliers()` -> `[ {"partner_id": "SUP-01", "name": "TotalEnergies Fleet", "category": "Fuel", "property_payment_term_id": 60, ...}, ... ]`
 
-### `email_server.py` — Emails (lit `data/emails/emails.json`)
+### `email_server.py` — Emails (parse `data/emails/raw/*.eml` au démarrage)
 
 | Outil | Description |
 |---|---|

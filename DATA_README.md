@@ -289,9 +289,9 @@ société, employés, organigramme caché, dépendances clés, agrégats financi
 | Réclamations historiques, pénalités SLA passées, **export legacy de contacts** | **SQLite annexe** (`data/db/annex.db`) | Ce qu'une PME bricole vraiment en interne — PAS la base centrale. |
 | Matrice transporteurs de secours, liste de priorité client, snapshot inventaire | **Excel** (`data/excel/*.xlsx`) | Fichiers bureautiques qui « traînent ». |
 | PO, facture, contrat SLA, bon de livraison | **PDF** (`data/pdfs/*.pdf`) | Documents (texte extractible). |
-| Messages du scénario (+ bruit anodin) | **Emails** (`data/emails/emails.json` + seed Outlook + mock MCP) | La conversation autour de l'incident. |
+| Messages du scénario (+ bruit anodin) | **Emails bruts** (`data/emails/raw/*.eml` + parser `eml_to_json.py` + seed Outlook + mock MCP) | La conversation autour de l'incident. |
 | **Employés** (Nom · Poste · Service · Email · Date d'entrée) | **Excel** (`data/excel/company_directory.xlsx`) | Un annuaire interne liste *qui* travaille là, **pas la hiérarchie**. |
-| **Indices de hiérarchie** (signatures `Nom — Poste`, escalades/délégations) | **Emails** (`data/emails/emails.json`) | La hiérarchie transparaît dans les échanges, elle n'est écrite nulle part. |
+| **Indices de hiérarchie** (signatures `Nom — Poste`, escalades/délégations) | **Emails bruts** (`data/emails/raw/*.eml`) | La hiérarchie transparaît dans les échanges, elle n'est écrite nulle part. |
 | **Agrégats société** (masse salariale, flotte, marge, DSO/DPO, trésorerie) | **Excel** (`data/excel/finances_summary.xlsx`) | Le reporting de gestion que sort l'expert-comptable. |
 | **CA total & concentration par client** | **Calculés** depuis les factures (`canonical.total_revenue()` / `revenue_concentration()`) | Dérivés des factures, jamais saisis en dur. |
 
@@ -516,7 +516,10 @@ data/
   _scenario_manifest.json   # IDs du scénario (filet démo)
   odoo/odoo_dump.json        + build_odoo.py
   dashdoc/dashdoc_dump.json  + build_dashdoc.py
-  emails/emails.json         + build_emails.py + seed_outlook.py
+  emails/raw/*.eml           # source de vérité figée (emails bruts RFC822)
+  emails/eml_to_json.py      # parser .eml -> JSON (load_emails())
+  emails/build_emails.py     # vérifie cohérence .eml <-> canonical
+  emails/seed_outlook.py     # seed Outlook (lit les .eml via le parser)
   db/annex.sql, annex.db     + build_db.py
   excel/*.xlsx               + generate_excel.py
   pdfs/*.pdf                 + generate_pdfs.py

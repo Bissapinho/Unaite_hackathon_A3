@@ -18,16 +18,20 @@ repreneur peut poser ses questions en langage naturel.
 
 Le produit a **deux systèmes distincts** (détaillés en §3) :
 
-- **Système A — le compilateur d'ontologie.** Sources → ontologie + graphe. Il *construit*
-  la connaissance : entités, relations, avec **provenance et confidence**. Pensé comme un
-  **compilateur** (passes spécialisées), pas comme un essaim d'agents qui bavardent.
-- **Système B — l'agent conversationnel.** Il *exploite* la connaissance : l'utilisateur
-  pose une question, B explore l'ontologie via des **outils de requête** (NetworkX),
-  raisonne, répond avec sa chaîne de preuves, et propose des actions.
+- **Système A — le compilateur d'ontologie.** Sources → **3 livrables** : `ontology.json`
+  (le document sérialisé avec provenance), le **graphe NetworkX** (la structure en mémoire,
+  pivot des deux autres) et la **visualisation Pyvis** (la carte HTML). Il *construit* toute
+  la connaissance — entités, relations, provenance, confidence — **et va jusqu'à la carte
+  visualisable.** Pensé comme un **compilateur** (passes spécialisées), pas comme un essaim
+  d'agents qui bavardent.
+- **Système B — l'agent conversationnel.** Son **seul rôle : interroger** l'ontologie
+  publiée par A. L'utilisateur pose une question, B charge le graphe et l'explore via des
+  **outils de requête NetworkX**, raisonne, répond avec sa chaîne de preuves, propose des
+  actions. **B ne construit rien, ne dessine rien** — il query.
 
-> **La frontière A/B est nette et non négociable** : A construit, B exploite. A ne répond
-> à aucune question ; B ne reconstruit rien. C'est ce qui évite que B ne soit qu'un
-> « formatage » de A (voir garde-fous §9).
+> **La frontière A/B est nette et non négociable** : A construit (json + graphe + carte),
+> B exploite (queries). A ne répond à aucune question ; B ne reconstruit ni ne dessine
+> rien. C'est ce qui évite que B ne soit qu'un « formatage » de A (voir garde-fous §9).
 
 L'ontologie couvre **toute la structure de la boîte** sur trois couches reliées :
 
@@ -98,28 +102,28 @@ ce qui prouve que B interroge une *vraie* base de connaissance, pas un script fi
 
 ```
                           SYSTÈME A — COMPILATEUR D'ONTOLOGIE
-   SOURCES                  (passes spécialisées, orchestrées)            ARTEFACT
-┌────────────────┐   ┌──────────────────────────────────────────┐   ┌──────────────┐
-│ Odoo (ERP)      │   │            Superviseur                    │   │ ontology.json │
-│ Dashdoc (TMS)   │   │  (workflow déterministe + gates + état)   │   │  3 couches    │
-│ SQLite annexe   │──▶│   ├─ Extraction métadonnées (déterministe)│──▶│  entités +    │
-│ company_dir.xlsx│   │   ├─ Source Profiler                      │   │  relations +  │
-│ finances.xlsx   │   │   ├─ Entity Discovery (+ fuzzy)           │   │  confidence + │
-│ PDF             │   │   ├─ Relationship Discovery               │   │  evidence +   │
-│ emails          │   │   ├─ Attribute Mapping                    │   │  open_q +     │
-└────────────────┘   │   ├─ Ontology Architect                   │   │  layer        │
-                     │   ├─ Critic / Consistency                 │   └──────┬───────┘
-                     │   └─ Validation (light en MVP)            │          │
-                     └──────────────────────────────────────────┘          ▼
-                                                                    ┌──────────────┐
-   SYSTÈME B — AGENT CONVERSATIONNEL (interroge l'ontologie)        │ Graphe Pyvis  │
-┌──────────────────────────────────────────────────────────┐      │ (carte 3      │
-│ User pose une question  ─▶  Agent (Claude)                │      │  couches)     │
-│                              │ appelle des OUTILS NetworkX │◀─────┤              │
-│  réponse + chaîne d'evidence │  find_nodes / get_neighbors │ lit  └──────────────┘
-│  + actions proposées (texte) │  shortest_path / impact /   │ l'ontologie publiée
-│                              │  articulation_points        │  de A
-└──────────────────────────────────────────────────────────┘
+   SOURCES                  (passes spécialisées, orchestrées)          3 LIVRABLES DE A
+┌────────────────┐   ┌──────────────────────────────────────────┐   ┌──────────────────┐
+│ Odoo (ERP)      │   │            Superviseur                    │   │ graphe NetworkX   │
+│ Dashdoc (TMS)   │   │  (workflow déterministe + gates + état)   │   │  (PIVOT en mémoire)│
+│ SQLite annexe   │──▶│   ├─ Extraction métadonnées (déterministe)│──▶│      │      │      │
+│ company_dir.xlsx│   │   ├─ Source Profiler                      │   │      ▼      ▼      │
+│ finances.xlsx   │   │   ├─ Entity Discovery (+ fuzzy)           │   │ ontology  Pyvis    │
+│ PDF             │   │   ├─ Relationship Discovery               │   │  .json    .html    │
+│ emails          │   │   ├─ Attribute Mapping                    │   │ (3 couches:        │
+└────────────────┘   │   ├─ Ontology Architect                   │   │  entités+relations │
+                     │   ├─ Critic / Consistency                 │   │  +confidence+      │
+                     │   └─ Validation (light en MVP)            │   │  evidence+open_q+  │
+                     └──────────────────────────────────────────┘   │  layer) + carte    │
+                                                                     └────────┬─────────┘
+   SYSTÈME B — AGENT CONVERSATIONNEL (interroge SEULEMENT)                     │
+┌──────────────────────────────────────────────────────────┐                │
+│ User pose une question  ─▶  Agent (Claude)                │  charge        │
+│                              │ appelle des OUTILS NetworkX │  ontology.json │
+│  réponse + chaîne d'evidence │  find_nodes / get_neighbors │◀───────────────┘
+│  + actions proposées (texte) │  shortest_path / impact /   │  → reconstruit son
+│                              │  articulation_points        │    propre graphe NetworkX
+└──────────────────────────────────────────────────────────┘    pour le requêter
 ```
 
 ### Système A — le compilateur
@@ -134,6 +138,17 @@ Pattern de mutation, **non négociable** :
 `passe PROPOSE → système VALIDE → Critic ATTAQUE → (humain APPROUVE, vision) → PUBLIE`.
 Jamais « un agent décide → l'ontologie change » : pour une ontologie d'entreprise, les
 erreurs silencieuses coûtent cher.
+
+**Les 3 livrables de A.** Une fois les passes terminées, A matérialise un **graphe
+NetworkX** en mémoire — c'est la **structure pivot**. Il en dérive ensuite les deux autres
+sorties : `ontology.json` (sérialisation avec provenance, le document qui persiste et
+traverse la frontière vers B) et la **carte Pyvis HTML** (le rendu visuel des 3 couches).
+A va donc **jusqu'à la carte** ; B n'en produit aucune.
+
+```
+... passes ...  →  graphe NetworkX G  ─┬─▶  graph_to_json(G)  → outputs/ontology.json
+                                       └─▶  nx_to_pyvis(G)    → outputs/ontology_graph.html
+```
 
 Les passes (★ = MVP, on code ; ◇ = vision, on présente) :
 
@@ -159,11 +174,13 @@ puis on emballe chaque passe en agent nommé avec **logs visibles** (Claude Agen
 
 ### Système B — l'agent conversationnel
 
-B est un **agent** (Claude) qui répond à des questions en langage naturel **en explorant
-l'ontologie de A** via des **outils de requête sur le graphe NetworkX**. Il ne reçoit pas
-tout le graphe en contexte (trop lourd, ~150 nœuds) : il **appelle des outils** qui
-renvoient des sous-ensembles digestes. Outils génériques visés (couvrent la question phare
-+ les questions structure) :
+**Le seul rôle de B est d'interroger l'ontologie de A.** Il ne construit rien, ne dessine
+aucune carte. Au démarrage, il **recharge `ontology.json`** (l'artefact publié par A) et le
+reconstruit en **graphe NetworkX** côté B — son terrain de requête. Puis B est un **agent**
+(Claude) qui répond en langage naturel **en explorant ce graphe** via des **outils de
+requête**. Il ne reçoit pas tout le graphe en contexte (trop lourd, ~150 nœuds) : il
+**appelle des outils** qui renvoient des sous-ensembles digestes. Outils génériques visés
+(couvrent la question phare + les questions structure) :
 
 - `find_nodes(type=…, attr=…)` — ex. tous les shipments `Delayed`.
 - `get_neighbors(node)` — voisinage direct d'une entité.
@@ -342,13 +359,18 @@ depuis les factures. Prompt : `YC QRT/prompts/01b-data-rh-finances.md`.
 > d'environnement sur `annex.db`. → **La voie est libre pour le Système A.**
 
 ### ⏭️ Prochaines briques (ordre de build)
-1. **Système A — ontologie** (`ontology.json`, les 3 couches + evidence + confidence +
-   layer + open_questions), d'abord en **déterministe** sur la data des Briques 1 + 1bis.
-2. **Graphe Pyvis** — la carte vivante (livrable visuel), tout le graphe + zoom SH-2049.
-3. **Emballage agentique de A** — Claude Agent SDK : chaque passe = un agent nommé avec
-   logs visibles + tool-calling MCP.
-4. **Système B — agent conversationnel** — outils NetworkX + raisonnement + réponse
-   sourcée + actions proposées. Question phare + questions structure.
+1. **Système A — oracle déterministe** : un script Python (sans LLM) qui lit les **dumps
+   produits** (PAS `canonical.py`), fait l'entity resolution + reconstruit l'organigramme,
+   et produit les **3 livrables** : `ontology.json` + graphe NetworkX + carte Pyvis. Sert
+   d'**ontologie de référence** (oracle de test) pour l'étape 3.
+2. *(inclus dans 1)* La **carte Pyvis** est dérivée du graphe NetworkX de A — tout le
+   graphe + zoom SH-2049. Pas une brique à part : A va jusqu'à la carte.
+3. **Système A — extracteur agentique** (Claude Agent SDK) : chaque passe = un agent nommé
+   avec logs visibles, qui **requête les MCP + parse les fichiers** (le vrai produit, celui
+   de la démo). On **vérifie qu'il retrouve la même ontologie** que l'oracle (étape 1).
+4. **Système B — agent conversationnel** — recharge `ontology.json` → NetworkX, outils de
+   requête + raisonnement + réponse sourcée + actions proposées. Question phare + questions
+   structure. **B interroge seulement.**
 5. **UI des 4 écrans** + **polish vidéo** (pacing, logs, animation, voix off).
 
 > **Principe de build** : déterministe bout-en-bout d'abord, puis emballage en agents. Ne
@@ -380,6 +402,18 @@ depuis les factures. Prompt : `YC QRT/prompts/01b-data-rh-finances.md`.
   signaux faibles qu'en vrai**. Sinon c'est de la triche, et ça se verra.
 - La data est **synthétique mais réaliste** ; la saillance de SH-2049 est *structurelle*
   (par les chiffres), pas un drapeau planté. B la redécouvre en scorant.
+- **Les emails sont des `.eml` bruts ; le parsing est une passe de A.** La source email,
+  ce sont les fichiers `data/emails/raw/*.eml` (RFC822). Transformer un email en données
+  structurées (en-têtes, corps, signatures `Nom — Poste`, escalades) **est le travail de
+  la passe email de A**, pas un pré-traitement servi à A. Conséquence sur le parser
+  `data/emails/eml_to_json.py` :
+  - C'est un **outil de référence / data** : utilisé par `validate.py` (cohérence
+    `.eml` ↔ canonical), `seed_outlook.py`, et **l'oracle déterministe** (étage 1) qui a
+    le droit de s'en servir comme lib pour produire la vérité de référence.
+  - Ce n'est **PAS** le chemin d'accès de l'**extracteur agentique** (étage 2) : lui doit
+    **extraire l'information depuis le texte brut** du `.eml` (lecture directe ou via le
+    MCP email qui sert les messages), pour qu'on *voie* A faire le travail. Lui passer le
+    JSON déjà parsé rendrait l'extraction cosmétique — même faute que `is_hot` pour B.
 
 **Demo-first**
 - Optimiser le récit qui marche à tous les coups à la vidéo, pas la robustesse prod.

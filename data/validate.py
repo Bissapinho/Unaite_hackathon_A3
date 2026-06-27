@@ -18,6 +18,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from data import canonical as C  # noqa: E402
+from data.emails.eml_to_json import load_emails  # noqa: E402
 
 DATA = ROOT / "data"
 
@@ -48,7 +49,8 @@ def load_sources() -> dict:
     src = {}
     src["odoo"] = load_json(DATA / "odoo" / "odoo_dump.json")
     src["dashdoc"] = load_json(DATA / "dashdoc" / "dashdoc_dump.json")
-    src["emails"] = load_json(DATA / "emails" / "emails.json")
+    # Plus de emails.json : les .eml bruts sont la source de vérité, lus via le parser.
+    src["emails"] = load_emails(DATA / "emails" / "raw")
     return src
 
 

@@ -1,8 +1,9 @@
-"""seed_outlook.py — Pousse les emails de emails.json vers une boîte Outlook via MCP.
+"""seed_outlook.py — Pousse les emails vers une boîte Outlook via MCP.
 
-Ce script lit `data/emails/emails.json` (généré par build_emails.py) et envoie
+Ce script parse les `data/emails/raw/*.eml` (via le parser eml_to_json) et envoie
 chaque email vers une boîte aux lettres Microsoft 365 / Outlook au travers d'un
-outil MCP (Model Context Protocol).
+outil MCP (Model Context Protocol). Les .eml sont la source de vérité (plus de
+emails.json).
 
 NOTE : ce script est PARAMÉTRABLE et n'est PAS destiné à tourner réellement dans
 cet environnement de démo (pas d'accès à la boîte ici). Seul le mode --dry-run
@@ -12,7 +13,7 @@ PRÉREQUIS (mode réel) :
   - Un serveur MCP Outlook / Microsoft 365 configuré et joignable
     (ex. un serveur MCP exposant un outil "send_mail" / "create_message").
   - Les credentials/permissions adéquats (Mail.Send) côté Microsoft Graph.
-  - emails.json présent : lancer d'abord `build_emails.py`.
+  - Les .eml présents dans data/emails/raw/.
 
 CONFIG : voir les variables en tête de fichier (ou variables d'environnement
 SEED_OUTLOOK_TARGET_MAILBOX, SEED_OUTLOOK_MCP_SERVER, SEED_OUTLOOK_MCP_TOOL).
@@ -51,17 +52,20 @@ MCP_TOOL_NAME = os.getenv("SEED_OUTLOOK_MCP_TOOL", "send_mail")  # placeholder
 # Chemins (relatifs robustes : parents[2] = racine repo)
 # --------------------------------------------------------------------------- #
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-EMAILS_JSON = ROOT / "data" / "emails" / "emails.json"
+RAW_DIR = ROOT / "data" / "emails" / "raw"
+
+sys.path.insert(0, str(ROOT))
+from data.emails.eml_to_json import load_emails as _parse_eml_dir  # noqa: E402
 
 
 def load_emails() -> list[dict]:
-    """Charge la liste d'emails depuis emails.json (généré par build_emails.py)."""
-    if not EMAILS_JSON.exists():
-        sys.exit(
-            f"[seed_outlook] emails.json introuvable: {EMAILS_JSON}\n"
-            f"  -> lance d'abord: .venv/bin/python data/emails/build_emails.py"
-        )
-    return json.loads(EMAILS_JSON.read_text(encoding="utf-8"))
+    """Charge la liste d'emails en parsant les .eml bruts de data/emails/raw/.
+
+    Plus de emails.json : les .eml sont la source de vérité.
+    """
+    if not RAW_DIR.exists():
+        sys.exit(f"[seed_outlook] dossier .eml introuvable: {RAW_DIR}")
+    return _parse_eml_dir(RAW_DIR)
 
 
 def send_via_mcp(email: dict) -> None:
