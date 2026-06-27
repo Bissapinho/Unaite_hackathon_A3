@@ -1,10 +1,280 @@
-# Brique 1 — Data synthétique (scénario SH-2049)
+# Documentation et modèle de données final
+
+Ce document regroupe le graphe logique final et la documentation source du jeu de données.
+
+## Partie I — Graphe du modèle final
+
+### Vue logique
+
+Diagramme logique reconstruit depuis `DATA_README.md` et vérifié avec la source de vérité `data/canonical.py`.
+
+```mermaid
+erDiagram
+    COMPANY {
+        string company_id PK
+        string legal_name
+        string headquarters_city
+        int founded_year
+        int headcount
+        string ceo_employee_id FK
+    }
+
+    EMPLOYEE {
+        string employee_id PK
+        string full_name
+        string role_title
+        string org_unit
+        string email
+        date hire_date
+        string manager_id FK "cache dans les sources"
+        int title_rank "derive du poste"
+        decimal monthly_gross_salary "canonique uniquement"
+        boolean is_key_person
+    }
+
+    KEY_DEPENDENCY {
+        string key_dependency_id PK
+        string type
+        string employee_id FK
+        string customer_id FK
+        string note
+    }
+
+    FINANCIAL_SUMMARY {
+        string company_id FK
+        string period
+        decimal annual_revenue "derive des factures"
+        decimal payroll_monthly
+        decimal fleet_leasing_monthly
+        decimal fuel_monthly
+        decimal other_opex_monthly
+        decimal gross_margin_pct
+        int dso_days
+        int dpo_days
+        decimal cash_on_hand
+    }
+
+    CUSTOMER {
+        string customer_id PK
+        string name
+        string industry
+        string priority_tier
+        string account_manager "rapprochement par nom"
+        decimal strategic_value
+        string city
+    }
+
+    SALES_ORDER {
+        string order_id PK
+        string customer_id FK
+        string po_number UK
+        date order_date
+        datetime promised_delivery_deadline
+        string status
+    }
+
+    INVOICE {
+        string invoice_id PK
+        string order_id FK
+        decimal amount
+        string currency
+        string status
+    }
+
+    CONTRACT_SLA {
+        string contract_id PK
+        string customer_id FK
+        time sla_deadline
+        decimal late_penalty_per_hour
+        string special_terms
+    }
+
+    PRODUCT {
+        string sku PK
+        string name
+        string category
+        decimal temperature_min
+        decimal temperature_max
+        decimal unit_value
+    }
+
+    SUPPLIER {
+        string supplier_id PK
+        string name
+        string category
+        int payment_term_days FK
+    }
+
+    PAYMENT_TERM {
+        string name PK
+        int days UK
+    }
+
+    SHIPMENT {
+        string shipment_id PK
+        string order_id FK
+        string carrier_id FK
+        string origin_warehouse FK
+        string destination
+        string status
+        datetime estimated_arrival
+        boolean temperature_controlled
+        int battery_backup_hours
+    }
+
+    SHIPMENT_ITEM {
+        string shipment_id PK, FK
+        string sku PK, FK
+        int quantity
+    }
+
+    CARRIER {
+        string carrier_id PK
+        string name UK
+        string service_type
+        decimal reliability_score
+    }
+
+    WAREHOUSE {
+        string warehouse_id PK
+        string name
+        string city
+    }
+
+    INVENTORY {
+        string warehouse_id PK, FK
+        string sku PK, FK
+        int available_units
+        int reserved_units
+    }
+
+    VEHICLE {
+        string license_plate PK
+        string type
+        int year
+        boolean is_refrigerated
+        string carrier_id FK
+    }
+
+    DRIVER {
+        string driver_id PK
+        string name "rapprochement employe par nom"
+        string certifications
+        string carrier_id FK
+    }
+
+    CUSTOMER_CLAIM {
+        int id PK
+        string customer_ref FK
+        string shipment_ref FK "nullable"
+        string type
+        date opened_at
+        date closed_at
+        string status
+    }
+
+    SLA_PENALTY_LOG {
+        int id PK
+        string customer_ref FK
+        string shipment_ref FK
+        int hours_late
+        decimal penalty_amount
+        string month
+    }
+
+    LEGACY_CONTACT {
+        int id PK
+        string raw_name "resolution floue client"
+        string email
+        string phone
+        string notes
+    }
+
+    BACKUP_CAPACITY {
+        string route PK
+        string backup_carrier "rapprochement par nom"
+        int max_cold_chain_capacity
+        decimal emergency_rate
+    }
+
+    EMAIL {
+        string id PK
+        string from_address
+        string to_address
+        string subject
+        string body
+        datetime received_at
+        string labels
+    }
+
+    COMPANY ||--|{ EMPLOYEE : emploie
+    EMPLOYEE o|--o{ EMPLOYEE : supervise
+    COMPANY ||--|| FINANCIAL_SUMMARY : consolide
+    EMPLOYEE ||--o{ CUSTOMER : gere
+    EMPLOYEE ||--o{ KEY_DEPENDENCY : constitue
+    CUSTOMER ||--o{ KEY_DEPENDENCY : concerne
+
+    CUSTOMER ||--o{ SALES_ORDER : passe
+    SALES_ORDER ||--o{ INVOICE : facture
+    CUSTOMER ||--o{ CONTRACT_SLA : contractualise
+
+    SALES_ORDER ||--o{ SHIPMENT : execute
+    SHIPMENT ||--|{ SHIPMENT_ITEM : contient
+    PRODUCT ||--o{ SHIPMENT_ITEM : reference
+    CARRIER ||--o{ SHIPMENT : transporte
+    WAREHOUSE ||--o{ SHIPMENT : origine
+
+    WAREHOUSE ||--o{ INVENTORY : stocke
+    PRODUCT ||--o{ INVENTORY : inventorie
+    CARRIER ||--o{ VEHICLE : exploite
+    CARRIER ||--o{ DRIVER : mandate
+    EMPLOYEE o|--o| DRIVER : peut_etre
+    CARRIER o|--o{ BACKUP_CAPACITY : propose
+    EMPLOYEE o{--o{ EMAIL : participe
+    CARRIER o{--o{ EMAIL : participe
+
+    PAYMENT_TERM ||--o{ SUPPLIER : applique
+    CUSTOMER ||--o{ CUSTOMER_CLAIM : ouvre
+    SHIPMENT o|--o{ CUSTOMER_CLAIM : peut_concerner
+    CUSTOMER ||--o{ SLA_PENALTY_LOG : subit
+    SHIPMENT ||--o{ SLA_PENALTY_LOG : genere
+    CUSTOMER o|--o{ LEGACY_CONTACT : rapprochement_flou
+```
+
+## Répartition physique
+
+| Domaine | Source principale |
+|---|---|
+| Clients, commandes, factures, produits, fournisseurs, paiements | ERP Odoo mock |
+| Expéditions, transporteurs, véhicules, chauffeurs, suivi et eCMR | TMS Dashdoc mock |
+| Réclamations, pénalités historiques, contacts legacy | SQLite annexe |
+| Inventaire, secours transporteur, annuaire, agrégats financiers | Excel |
+| PO, facture, contrat SLA, bon de livraison | PDF |
+| Indices hiérarchiques et échanges d'incident | Emails |
+| Société, hiérarchie complète, rangs, salaires, dépendances clés | `canonical.py` uniquement |
+
+## Conventions du graphe
+
+- `PK`, `FK`, `UK` : clé primaire, étrangère et unique.
+- Les relations « rapprochement » reposent sur les noms ou l'entity resolution, pas sur une FK exposée.
+- Les PDF et l'eCMR sont des projections documentaires des entités métier, pas de nouvelles entités canoniques.
+- `annual_revenue` et la concentration du CA sont calculés depuis les factures ; le décalage de trésorerie est dérivé de `dso_days - dpo_days`.
+- `manager_id` représente la vérité cachée utilisée pour valider l'organigramme reconstruit ; il n'est publié dans aucune source opérationnelle.
+
+
+---
+
+## Partie II — Documentation source
+
+# Briques 1 + 1bis — Data synthétique (scénario SH-2049)
 
 Jeu de données synthétiques, **hétérogènes et répartis de façon réaliste**, pour une
 démo d'*agentic ontology builder* dans le transport/logistique. Le fil rouge : le
-retard de la livraison **SH-2049** (lot d'insuline cold-chain pour MedPharma).
+retard de la livraison **SH-2049** (lot d'insuline cold-chain pour MedPharma). Couvre
+l'opérationnel/commercial (Brique 1) **et** la couche RH + finances (Brique 1bis :
+société, employés, organigramme caché, dépendances clés, agrégats financiers).
 
-> Cette brique ne produit QUE de la data + les sources qui l'exposent. **Aucune
+> Ces briques ne produisent QUE de la data + les sources qui l'exposent. **Aucune
 > ontologie, aucun agent, aucune UI.** La source de vérité unique est
 > [`data/canonical.py`](data/canonical.py) ; tout le reste en dérive.
 
