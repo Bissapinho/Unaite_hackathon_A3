@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="./graph_data.js"></script>
+<style>
+  html,body{margin:0;height:100%;background:#06080D;overflow:hidden;}
+  *{box-sizing:border-box;}
+  ::selection{background:rgba(59,130,246,.35);}
+  .pl-scroll::-webkit-scrollbar{width:8px;height:8px;}
+  .pl-scroll::-webkit-scrollbar-thumb{background:#1b2433;border-radius:0;}
+  .pl-scroll::-webkit-scrollbar-track{background:transparent;}
+  @keyframes plBlink{0%,100%{opacity:1;}50%{opacity:.25;}}
+  @keyframes plDots{0%{opacity:.2;}50%{opacity:1;}100%{opacity:.2;}}
+</style>
+</helmet>
+<div style="position:fixed;inset:0;display:flex;font-family:'IBM Plex Sans',sans-serif;background:#06080D;color:#C7D0DD;">
+
+  <div style="position:relative;flex:1;min-width:0;overflow:hidden;background:radial-gradient(120% 120% at 50% 0%,#0B1018 0%,#06080D 70%);">
+
+    <canvas ref="{{ canvasRef }}" style="position:absolute;inset:0;display:block;cursor:grab;"></canvas>
+
+    <div style="position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:18px;padding:14px 20px;pointer-events:none;background:linear-gradient(180deg,rgba(6,8,13,.92) 0%,rgba(6,8,13,0) 100%);">
+      <div style="display:flex;flex-direction:column;gap:3px;">
+        <div style="display:flex;align-items:center;gap:9px;">
+          <div style="width:9px;height:9px;background:#3B82F6;box-shadow:0 0 10px #3B82F6;"></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.22em;color:#7E8CA0;text-transform:uppercase;">Ontology Graph</span>
+        </div>
+        <div style="font-size:18px;font-weight:600;color:#EAF1FB;letter-spacing:-.01em;">Our Logistics Co</div>
+      </div>
+      <div style="display:flex;gap:0;margin-left:6px;border:1px solid #1b2433;background:rgba(10,14,20,.6);">
+        <div style="padding:7px 14px;border-right:1px solid #1b2433;">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;color:#5A6678;text-transform:uppercase;">Entities</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:#EAF1FB;">{{ loadedCount }}<span style="color:#465061;">/{{ totalNodes }}</span></div>
+        </div>
+        <div style="padding:7px 14px;">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;color:#5A6678;text-transform:uppercase;">Relations</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:#EAF1FB;">{{ totalEdges }}</div>
+        </div>
+      </div>
+      <div style="flex:1;"></div>
+      <div style="display:flex;align-items:center;gap:8px;pointer-events:auto;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7E8CA0;">{{ status }}</span>
+        <button onClick="{{ replay }}" style="pointer-events:auto;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#C7D0DD;background:rgba(10,14,20,.7);border:1px solid #1b2433;padding:7px 12px;" style-hover="background:#11171f;border-color:#3B82F6;">Replay</button>
+      </div>
+    </div>
+
+    <div style="position:absolute;left:20px;bottom:20px;display:flex;flex-direction:column;gap:7px;pointer-events:auto;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:#5A6678;text-transform:uppercase;margin-bottom:1px;">Layers · click to isolate</div>
+      <sc-for list="{{ legend }}" as="lg" hint-placeholder-count="4">
+        <button data-layer="{{ lg.key }}" onClick="{{ toggleLayer }}" style="display:flex;align-items:center;gap:9px;cursor:pointer;background:transparent;border:none;padding:2px 0;text-align:left;">
+          <span style="width:14px;display:flex;align-items:center;justify-content:center;">
+            <sc-if value="{{ lg.isCircle }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.4" fill="none" stroke="#E9F0FA" stroke-width="1.4"></circle></svg></sc-if>
+            <sc-if value="{{ lg.isSquare }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 14 14"><rect x="1.8" y="1.8" width="10.4" height="10.4" fill="none" stroke="#E9F0FA" stroke-width="1.4"></rect></svg></sc-if>
+            <sc-if value="{{ lg.isTriangle }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 14 14"><polygon points="7,1.4 12.6,12 1.4,12" fill="none" stroke="#E9F0FA" stroke-width="1.4" stroke-linejoin="round"></polygon></svg></sc-if>
+            <sc-if value="{{ lg.isDiamond }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 14 14"><polygon points="7,1.2 12.8,7 7,12.8 1.2,7" fill="none" stroke="#E9F0FA" stroke-width="1.4" stroke-linejoin="round"></polygon></svg></sc-if>
+          </span>
+          <span style="font-size:12px;color:#AEB9C9;min-width:104px;">{{ lg.name }}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5A6678;">{{ lg.count }}</span>
+        </button>
+      </sc-for>
+      <div style="display:flex;align-items:center;gap:9px;padding-top:4px;">
+        <span style="width:10px;height:3px;background:#F59E0B;box-shadow:0 0 8px #F59E0B;"></span>
+        <span style="font-size:12px;color:#AEB9C9;">Critical path</span>
+      </div>
+    </div>
+
+    <div style="position:absolute;right:18px;bottom:18px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#3C4658;pointer-events:none;text-align:right;line-height:1.6;">
+      hover node · vignette &nbsp;·&nbsp; scroll · zoom &nbsp;·&nbsp; drag · pan
+    </div>
+
+    <div ref="{{ vignetteRef }}" style="position:absolute;display:none;width:300px;z-index:30;pointer-events:none;background:rgba(9,12,18,.97);border:1px solid #243149;box-shadow:0 18px 50px rgba(0,0,0,.6);backdrop-filter:blur(2px);">
+      <div style="height:3px;background:{{ hoverColor }};"></div>
+      <div style="padding:13px 14px 14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+          <div style="font-size:15px;font-weight:600;color:#EAF1FB;line-height:1.2;">{{ hoverName }}</div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#0A0E14;background:{{ hoverColor }};padding:3px 6px;white-space:nowrap;">{{ hoverLayer }}</span>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7E8CA0;margin-top:4px;">{{ hoverType }} &nbsp;·&nbsp; {{ hoverId }}</div>
+        <div style="font-size:12.5px;line-height:1.55;color:#AEB9C9;margin-top:10px;">{{ hoverDesc }}</div>
+        <div style="height:1px;background:#1b2433;margin:12px 0 10px;"></div>
+        <sc-for list="{{ hoverAttrs }}" as="at" hint-placeholder-count="3">
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:3px 0;font-family:'IBM Plex Mono',monospace;font-size:11px;">
+            <span style="color:#5A6678;text-transform:uppercase;letter-spacing:.04em;">{{ at.k }}</span>
+            <span style="color:#D6DEEA;text-align:right;">{{ at.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="width:384px;flex:none;display:flex;flex-direction:column;background:#080B11;border-left:1px solid #161e2b;">
+    <div style="padding:16px 18px 14px;border-bottom:1px solid #161e2b;">
+      <div style="display:flex;align-items:center;gap:9px;">
+        <div style="width:7px;height:7px;border-radius:50%;background:#34D399;box-shadow:0 0 8px #34D399;"></div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;color:#9AA7B8;text-transform:uppercase;">Graph Analyst</span>
+      </div>
+      <div style="font-size:12.5px;color:#6B7689;margin-top:7px;line-height:1.5;">Ask a business question. I'll answer and light up the entities &amp; relationships behind the answer.</div>
+    </div>
+
+    <div ref="{{ scrollRef }}" class="pl-scroll" style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px;">
+      <sc-for list="{{ messages }}" as="m" hint-placeholder-count="0">
+        <sc-if value="{{ m.isUser }}" hint-placeholder-val="{{ false }}">
+          <div style="align-self:flex-end;max-width:86%;background:#16335c;border:1px solid #244a82;color:#EAF1FB;padding:10px 13px;font-size:13.5px;line-height:1.5;">{{ m.text }}</div>
+        </sc-if>
+        <sc-if value="{{ m.isBot }}" hint-placeholder-val="{{ false }}">
+          <div style="align-self:flex-start;max-width:92%;">
+            <div style="background:#0E141E;border:1px solid #1b2433;border-left:2px solid #3B82F6;color:#C7D0DD;padding:11px 14px;font-size:13.5px;line-height:1.6;white-space:pre-wrap;">{{ m.text }}</div>
+            <sc-if value="{{ m.hasChips }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
+                <sc-for list="{{ m.chips }}" as="c" hint-placeholder-count="0">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;color:#9AA7B8;background:#0A0E14;border:1px solid #1b2433;padding:4px 7px;">{{ c }}</span>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+      </sc-for>
+      <sc-if value="{{ busy }}" hint-placeholder-val="{{ false }}">
+        <div style="align-self:flex-start;display:flex;gap:5px;padding:11px 14px;background:#0E141E;border:1px solid #1b2433;border-left:2px solid #3B82F6;">
+          <span style="width:6px;height:6px;border-radius:50%;background:#3B82F6;animation:plDots 1s infinite;"></span>
+          <span style="width:6px;height:6px;border-radius:50%;background:#3B82F6;animation:plDots 1s infinite .2s;"></span>
+          <span style="width:6px;height:6px;border-radius:50%;background:#3B82F6;animation:plDots 1s infinite .4s;"></span>
+        </div>
+      </sc-if>
+    </div>
+
+    <div style="padding:0 18px 8px;display:flex;flex-wrap:wrap;gap:6px;">
+      <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="4">
+        <button data-q="{{ s }}" onClick="{{ ask }}" style="cursor:pointer;font-size:11.5px;color:#AEB9C9;background:#0C111A;border:1px solid #1b2433;padding:6px 9px;line-height:1.3;text-align:left;" style-hover="border-color:#3B82F6;color:#EAF1FB;">{{ s }}</button>
+      </sc-for>
+    </div>
+
+    <div style="padding:14px 18px 18px;border-top:1px solid #161e2b;display:flex;gap:9px;align-items:flex-end;">
+      <textarea ref="{{ inputRef }}" value="{{ input }}" onChange="{{ onInput }}" onKeyDown="{{ onKey }}" rows="1" placeholder="Ask about the graph…" class="pl-scroll" style="flex:1;resize:none;max-height:120px;background:#0A0E14;border:1px solid #1b2433;color:#EAF1FB;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;line-height:1.5;padding:10px 12px;outline:none;" style-focus="border-color:#3B82F6;"></textarea>
+      <button onClick="{{ send }}" style="cursor:pointer;flex:none;height:40px;width:44px;display:flex;align-items:center;justify-content:center;background:#3B82F6;border:none;color:#06080D;" style-hover="background:#5a9bff;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="400" fill="#06080D"/>
+    <g stroke="rgba(214,224,238,0.35)" stroke-width="2">
+      <line x1="150" y1="150" x2="250" y2="130"/>
+      <line x1="150" y1="150" x2="170" y2="260"/>
+      <line x1="250" y1="130" x2="280" y2="240"/>
+      <line x1="170" y1="260" x2="280" y2="240"/>
+      <line x1="250" y1="130" x2="300" y2="160"/>
+    </g>
+    <g fill="none" stroke="#E9F0FA" stroke-width="3">
+      <circle cx="150" cy="150" r="16"/>
+      <rect x="236" y="116" width="28" height="28"/>
+      <polygon points="170,244 184,268 156,268" stroke-linejoin="round"/>
+      <circle cx="300" cy="160" r="11"/>
+    </g>
+    <g fill="none" stroke="#F59E0B" stroke-width="3.5">
+      <circle cx="280" cy="240" r="18"/>
+    </g>
+  </svg>
+</template></x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    messages: [{ role: 'bot', text: "Ontology loaded. Ask me anything — try a suggestion below, or \"trace the critical path to shipment SH-2049\".", chips: [] }],
+    input: '',
+    busy: false,
+    loadedCount: 0,
+    totalNodes: 0,
+    totalEdges: 0,
+    status: 'initializing',
+    hover: null,
+  };
+
+  LAYER_COLORS = { operational: '#3B82F6', hr: '#22D3EE', financial: '#34D399', unknown: '#64748B' };
+  LAYER_SHAPES = { operational: 'circle', hr: 'square', financial: 'triangle', unknown: 'diamond' };
+  LAYER_NAMES = { operational: 'Operational', hr: 'Human / Org', financial: 'Financial', unknown: 'Other' };
+  CRIT = '#F59E0B';
+  CRIT_IDS = ['customer:medpharma', 'po:po-8821', 'order:o-881', 'shipment:sh-2049'];
+
+  canvasRef = React.createRef();
+  vignetteRef = React.createRef();
+  scrollRef = React.createRef();
+  inputRef = React.createRef();
+
+  constructor(props) {
+    super(props);
+    this.nodes = []; this.edges = [];
+    this.nodeById = new Map();
+    this.visible = new Set();
+    this.shownEdges = [];
+    this.cam = { x: 0, y: 0, k: 1 };
+    this.alpha = 0;
+    this.highlight = null;   // Set of node ids from chat
+    this.pathEdges = null;   // array of [a,b] ordered
+    this.filter = null;      // {layers:Set, types:Set}
+    this.hoverId = null;
+    this.drag = null;        // {id} or {pan:true}
+    this.t0 = performance.now();
+  }
+
+  async componentDidMount() {
+    let mod = window.GRAPH;
+    if (!mod) { mod = await new Promise(res => { let t = 0; const i = setInterval(() => { if (window.GRAPH) { clearInterval(i); res(window.GRAPH); } else if ((t += 50) > 4000) { clearInterval(i); res(null); } }, 50); }); }
+    if (!mod) { try { mod = await import('./graph_data.js'); } catch (e) { mod = { NODES: [], EDGES: [] }; } }
+    const RAW_NODES = mod.NODES, RAW_EDGES = mod.EDGES;
+    const adj = new Map();
+    RAW_NODES.forEach(n => adj.set(n.id, 0));
+    RAW_EDGES.forEach(e => { if (adj.has(e.s)) adj.set(e.s, adj.get(e.s) + 1); if (adj.has(e.t)) adj.set(e.t, adj.get(e.t) + 1); });
+    const cx = 0, cy = 0;
+    this.nodes = RAW_NODES.map((n, i) => {
+      const a = (i / RAW_NODES.length) * Math.PI * 2;
+      const r = 40 + Math.random() * 30;
+      const node = { ...n, x: cx + Math.cos(a) * r + (Math.random() - .5) * 20, y: cy + Math.sin(a) * r + (Math.random() - .5) * 20, vx: 0, vy: 0, deg: adj.get(n.id) || 0, rad: 3 + Math.min(5.5, (adj.get(n.id) || 0) * 0.32) + (n.size >= 34 ? 5 : n.size >= 20 ? 2.2 : 0), crit: this.CRIT_IDS.includes(n.id) };
+      this.nodeById.set(n.id, node);
+      return node;
+    });
+    this.edges = RAW_EDGES.filter(e => this.nodeById.has(e.s) && this.nodeById.has(e.t));
+
+    const counts = {};
+    this.nodes.forEach(n => counts[n.layer] = (counts[n.layer] || 0) + 1);
+    this.legend = Object.keys(this.LAYER_NAMES).filter(k => counts[k]).map(k => { const sh = this.LAYER_SHAPES[k]; return { key: k, name: this.LAYER_NAMES[k], color: this.LAYER_COLORS[k], count: counts[k], isCircle: sh === 'circle', isSquare: sh === 'square', isTriangle: sh === 'triangle', isDiamond: sh === 'diamond' }; });
+
+    this.setState({ totalNodes: this.nodes.length, totalEdges: this.edges.length });
+    this.setupCanvas();
+    this.attachEvents();
+    this.buildPlan();
+    this.loop();
+    setTimeout(() => this.startBuild(), 600);
+  }
+
+  componentWillUnmount() { cancelAnimationFrame(this._raf); window.removeEventListener('resize', this._onResize); }
+
+  setupCanvas() {
+    const cv = this.canvasRef.current;
+    this._onResize = () => {
+      const r = cv.parentElement.getBoundingClientRect();
+      this.dpr = window.devicePixelRatio || 1;
+      cv.width = r.width * this.dpr; cv.height = r.height * this.dpr;
+      cv.style.width = r.width + 'px'; cv.style.height = r.height + 'px';
+      this.W = r.width; this.H = r.height;
+      if (!this._didFit) { this.cam = { x: this.W / 2, y: this.H / 2, k: 1.1 }; this._didFit = true; }
+      else if (this._done) { clearTimeout(this._refitT); this._refitT = setTimeout(() => this.fitView(400), 120); }
+    };
+    this._onResize();
+    window.addEventListener('resize', this._onResize);
+  }
+
+  buildPlan() {
+    const byLayer = l => this.nodes.filter(n => n.layer === l && !n.crit);
+    this.phases = [];
+    ['operational', 'hr', 'financial'].forEach(l => { const items = byLayer(l); if (items.length) this.phases.push({ name: this.LAYER_NAMES[l], items, batch: 6, gap: 60 }); });
+    const other = this.nodes.filter(n => !['operational', 'hr', 'financial'].includes(n.layer) && !n.crit);
+    if (other.length) this.phases.push({ name: 'Other', items: other, batch: 6, gap: 60 });
+    this.phases.push({ name: 'Critical path · MedPharma → SH-2049', items: this.CRIT_IDS.map(id => this.nodeById.get(id)).filter(Boolean), batch: 1, gap: 650, critical: true });
+  }
+
+  startBuild() {
+    clearTimeout(this._buildT);
+    this.visible = new Set(); this.shownEdges = []; this._edgeSet = new Set();
+    this.pi = 0; this.ii = 0; this.alpha = 1; this._done = false; this._revealed = false; this._settled = false; this._live = false;
+    this.setState({ loadedCount: 0, status: 'building' });
+    this.tick();
+  }
+
+  replay = () => { this.highlight = null; this.pathEdges = null; this.filter = null; this.startBuild(); };
+
+  addEligibleEdges() {
+    this.edges.forEach((e, idx) => {
+      if (!this._edgeSet.has(idx) && this.visible.has(e.s) && this.visible.has(e.t)) {
+        this._edgeSet.add(idx); this.shownEdges.push(e);
+      }
+    });
+  }
+
+  tick() {
+    if (this.pi >= this.phases.length) {
+      if (this._done) return;
+      this._done = true;
+      this.setState({ status: 'complete · ' + this.visible.size + ' entities · ' + this.shownEdges.length + ' relations' });
+      this.alpha = 0.5;
+      if (!this._revealed && this.CRIT_IDS.every(id => this.visible.has(id))) {
+        this._revealed = true;
+        this.pathEdges = [['customer:medpharma','po:po-8821'],['po:po-8821','order:o-881'],['order:o-881','shipment:sh-2049']];
+      }
+      // refit as the layout settles
+      this.fitView(900);
+      setTimeout(() => this.fitView(800), 900);
+      setTimeout(() => { this.alpha = Math.min(this.alpha, 0.12); this.fitView(700); }, 2200);
+      return;
+    }
+    const ph = this.phases[this.pi];
+    const batch = ph.items.slice(this.ii, this.ii + ph.batch);
+    batch.forEach(n => { const nn = this.nodeById.get(n.id); nn.x = (Math.random()-.5)*60; nn.y = (Math.random()-.5)*60; this.visible.add(n.id); });
+    this.ii += batch.length;
+    this.addEligibleEdges();
+    this.alpha = Math.min(1, this.alpha + 0.4);
+    this.setState({ loadedCount: this.visible.size, status: ph.name + ' · ' + this.visible.size + '/' + this.nodes.length });
+    if (ph.critical) {
+      this.pathEdges = this.CRIT_IDS.slice(0, this.ii).map((id, i) => i > 0 ? [this.CRIT_IDS[i - 1], id] : null).filter(Boolean);
+    }
+    if (this.ii >= ph.items.length) { this.pi++; this.ii = 0; this._buildT = setTimeout(() => this.tick(), ph.gap); }
+    else this._buildT = setTimeout(() => this.tick(), ph.critical ? ph.gap : 70);
+  }
+
+  fitView(dur) {
+    const vis = this.nodes.filter(n => this.visible.has(n.id));
+    if (!vis.length) return;
+    let minx=1e9,miny=1e9,maxx=-1e9,maxy=-1e9;
+    vis.forEach(n => { minx=Math.min(minx,n.x);miny=Math.min(miny,n.y);maxx=Math.max(maxx,n.x);maxy=Math.max(maxy,n.y); });
+    const pad = 110;
+    const k = 0.92 * Math.min(1.15, Math.min((this.W - pad*2) / Math.max(1,(maxx-minx)), (this.H - pad*2) / Math.max(1,(maxy-miny))));
+    const tcx = (minx+maxx)/2, tcy=(miny+maxy)/2;
+    const kk = Math.max(0.4, k);
+    const target = { k: kk, x: this.W/2 - tcx*kk, y: this.H/2 - tcy*kk };
+    this.animateCam(target, dur || 700);
+  }
+
+  animateCam(target, dur) {
+    const start = { ...this.cam }, t0 = performance.now();
+    cancelAnimationFrame(this._camRaf);
+    const step = () => {
+      const p = Math.min(1, (performance.now() - t0) / dur);
+      const e = p < .5 ? 2*p*p : 1 - Math.pow(-2*p+2,2)/2;
+      this.cam.k = start.k + (target.k - start.k)*e;
+      this.cam.x = start.x + (target.x - start.x)*e;
+      this.cam.y = start.y + (target.y - start.y)*e;
+      if (p < 1) this._camRaf = requestAnimationFrame(step);
+    };
+    step();
+  }
+
+  physics() {
+    const vis = this.nodes.filter(n => this.visible.has(n.id));
+    const n = vis.length;
+    const settling = this.alpha > 0.02;
+    const active = settling || !!this.drag || this._live;
+    const krep = 4800 * this.alpha + (this._live ? 260 : 0);
+    for (let i = 0; i < n; i++) {
+      const a = vis[i];
+      for (let j = i + 1; j < n; j++) {
+        const b = vis[j];
+        let dx = a.x - b.x, dy = a.y - b.y;
+        let d2 = dx*dx + dy*dy; if (d2 < 0.01) { d2 = 0.01; dx = Math.random()-.5; dy = Math.random()-.5; }
+        const d = Math.sqrt(d2);
+        if (active && krep > 0) {
+          const f = krep / d2; const fx = (dx/d)*f, fy = (dy/d)*f;
+          a.vx += fx; a.vy += fy; b.vx -= fx; b.vy -= fy;
+        }
+        // hard collision: guarantee nodes never overlap / hide each other
+        const minD = a.rad + b.rad + 15;
+        if (d < minD) {
+          const push = (minD - d) / d * 0.5, px = dx * push, py = dy * push;
+          if (!(this.drag && this.drag.id === a.id)) { a.x += px; a.y += py; }
+          if (!(this.drag && this.drag.id === b.id)) { b.x -= px; b.y -= py; }
+        }
+      }
+      // anisotropic gravity → graph spreads wider than tall
+      if (active) { a.vx -= a.x * 0.0052; a.vy -= a.y * 0.0135; }
+    }
+    if (!active) return;
+    const springK = settling ? 0.02 : 0.011;
+    this.shownEdges.forEach(e => {
+      const a = this.nodeById.get(e.s), b = this.nodeById.get(e.t);
+      let dx = b.x - a.x, dy = b.y - a.y; const d = Math.sqrt(dx*dx+dy*dy)||1;
+      const f = (d - 120) * springK;
+      const fx = (dx/d)*f, fy=(dy/d)*f;
+      a.vx += fx; a.vy += fy; b.vx -= fx; b.vy -= fy;
+    });
+    // perpetual gentle motion — the graph keeps breathing even when idle
+    if (this._live) {
+      for (let i = 0; i < n; i++) { vis[i].vx += (Math.random() - 0.5) * 0.42; vis[i].vy += (Math.random() - 0.5) * 0.42; }
+    }
+    const damp = this._live && !settling ? 0.86 : 0.82;
+    vis.forEach(p => {
+      if (this.drag && this.drag.id === p.id) return;
+      p.vx *= damp; p.vy *= damp;
+      p.x += p.vx * 0.18; p.y += p.vy * 0.18;
+    });
+    // pin centroid to origin so the camera stays centred after settling
+    if (!this.drag && n) {
+      let mx = 0, my = 0; vis.forEach(p => { mx += p.x; my += p.y; }); mx /= n; my /= n;
+      vis.forEach(p => { p.x -= mx; p.y -= my; });
+    }
+    this.alpha *= 0.992;
+    // final fit the moment the layout comes to rest
+    if (this._done && !this._settled && this.alpha <= 0.02) { this._settled = true; this.fitView(650); this._live = true; }
+  }
+
+  loop = () => {
+    this._raf = requestAnimationFrame(this.loop);
+    this.physics();
+    this.draw();
+  };
+
+  // flat projection (kept the project/unproject signature; scale is always 1)
+  project(wx, wy) { return [wx * this.cam.k + this.cam.x, wy * this.cam.k + this.cam.y, 1]; }
+  unproject(sx, sy) { return [(sx - this.cam.x) / this.cam.k, (sy - this.cam.y) / this.cam.k]; }
+  depthAlpha() { return 1; }
+
+  // draw a white shape per layer at (x,y) with radius r; mode: 'fill' uses current fillStyle
+  shapePath(ctx, shape, x, y, r) {
+    ctx.beginPath();
+    if (shape === 'square') { const s = r * 0.92; ctx.rect(x - s, y - s, s * 2, s * 2); }
+    else if (shape === 'triangle') { const s = r * 1.18; ctx.moveTo(x, y - s); ctx.lineTo(x + s * 0.866, y + s * 0.5); ctx.lineTo(x - s * 0.866, y + s * 0.5); ctx.closePath(); }
+    else if (shape === 'diamond') { const s = r * 1.18; ctx.moveTo(x, y - s); ctx.lineTo(x + s, y); ctx.lineTo(x, y + s); ctx.lineTo(x - s, y); ctx.closePath(); }
+    else { ctx.arc(x, y, r, 0, 7); }
+  }
+
+  draw() {
+    const cv = this.canvasRef.current; if (!cv) return;
+    const ctx = cv.getContext('2d');
+    ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    ctx.clearRect(0, 0, this.W, this.H);
+
+    const hov = this.hoverId;
+    const neigh = new Set();
+    if (hov) { neigh.add(hov); this.shownEdges.forEach(e => { if (e.s === hov) neigh.add(e.t); if (e.t === hov) neigh.add(e.s); }); }
+    const hasFocus = !!hov || !!this.highlight || !!this.filter;
+    const pathSet = new Set();
+    if (this.pathEdges) this.pathEdges.forEach(([a, b]) => pathSet.add(a + '>' + b));
+
+    const inFilter = (n) => {
+      if (!this.filter) return true;
+      const okL = !this.filter.layers || this.filter.layers.has(n.layer);
+      const okT = !this.filter.types || this.filter.types.has(n.type);
+      return okL && okT;
+    };
+    const lit = (id) => {
+      const n = this.nodeById.get(id);
+      if (this.filter && !inFilter(n)) return false;
+      if (hov) return neigh.has(id);
+      if (this.highlight) return this.highlight.has(id);
+      return true;
+    };
+
+    // edges — thin white lines
+    this.shownEdges.forEach(e => {
+      const a = this.nodeById.get(e.s), b = this.nodeById.get(e.t);
+      const [ax, ay] = this.project(a.x, a.y), [bx, by] = this.project(b.x, b.y);
+      const isPath = pathSet.has(e.s + '>' + e.t) || pathSet.has(e.t + '>' + e.s);
+      const on = lit(e.s) && lit(e.t);
+      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by);
+      if (isPath) { ctx.strokeStyle = 'rgba(255,255,255,0.95)'; ctx.lineWidth = 2; ctx.shadowColor = this.CRIT; ctx.shadowBlur = 10; }
+      else if (hasFocus) { ctx.strokeStyle = on ? 'rgba(255,255,255,0.55)' : 'rgba(200,215,235,0.04)'; ctx.lineWidth = on ? 0.9 : 0.5; ctx.shadowBlur = 0; }
+      else { ctx.strokeStyle = 'rgba(214,224,238,0.14)'; ctx.lineWidth = 0.6; ctx.shadowBlur = 0; }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+      if (isPath) {
+        const ang = Math.atan2(by - ay, bx - ax); const hl = 9;
+        const off = b.rad * this.cam.k + 3;
+        ctx.fillStyle = '#FFFFFF'; ctx.beginPath();
+        ctx.moveTo(bx - Math.cos(ang) * off, by - Math.sin(ang) * off);
+        ctx.lineTo(bx - Math.cos(ang) * off - Math.cos(ang - .4) * hl, by - Math.sin(ang) * off - Math.sin(ang - .4) * hl);
+        ctx.lineTo(bx - Math.cos(ang) * off - Math.cos(ang + .4) * hl, by - Math.sin(ang) * off - Math.sin(ang + .4) * hl);
+        ctx.fill();
+      }
+    });
+
+    // nodes — white shapes, one shape per layer (small first so larger render on top)
+    const pulse = 0.5 + 0.5 * Math.sin(performance.now() / 380);
+    const order = this.nodes.filter(n => this.visible.has(n.id)).sort((p, q) => p.rad - q.rad);
+    order.forEach(n => {
+      const [x, y] = this.project(n.x, n.y);
+      const r = Math.max(2.4, n.rad * this.cam.k);
+      const on = lit(n.id);
+      const shape = this.LAYER_SHAPES[n.layer] || 'circle';
+      const isHi = this.highlight && this.highlight.has(n.id);
+      const emph = n.crit || isHi;
+      ctx.globalAlpha = hasFocus ? (on ? 1 : 0.06) : 1;
+      // glow for emphasized / hovered (outline glow)
+      if ((emph || n.id === hov) && on) {
+        ctx.save();
+        ctx.shadowColor = emph ? this.CRIT : 'rgba(255,255,255,0.95)';
+        ctx.shadowBlur = emph ? 15 + pulse * 6 : 11;
+        this.shapePath(ctx, shape, x, y, r);
+        ctx.lineWidth = emph ? 2.4 : 2; ctx.strokeStyle = emph ? this.CRIT : '#FFFFFF'; ctx.stroke();
+        ctx.restore();
+      }
+      // faint fill only for emphasised / hovered nodes; everything else stays empty
+      if ((emph || n.id === hov) && on) {
+        this.shapePath(ctx, shape, x, y, r);
+        ctx.fillStyle = emph ? this.hexA(this.CRIT, 0.16) : 'rgba(255,255,255,0.16)'; ctx.fill();
+      }
+      // hollow outline shape
+      this.shapePath(ctx, shape, x, y, r);
+      ctx.lineWidth = emph ? 2.2 : 1.5;
+      ctx.strokeStyle = emph ? this.CRIT : (n.id === hov ? '#FFFFFF' : 'rgba(233,240,250,0.92)');
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+      // labels ONLY on hover (node + its neighbours) or on a chat-highlighted node
+      const showLabel = on && (n.id === hov || (hov && neigh.has(n.id)) || isHi);
+      if (showLabel) {
+        ctx.font = (n.id === hov ? '600 ' : '400 ') + '12px \'IBM Plex Sans\', sans-serif';
+        const tw = ctx.measureText(n.label).width;
+        ctx.fillStyle = 'rgba(6,8,13,0.78)'; ctx.fillRect(x + r + 5, y - 9, tw + 8, 18);
+        ctx.fillStyle = n.id === hov ? '#FFFFFF' : '#C7D0DD'; ctx.textBaseline = 'middle';
+        ctx.fillText(n.label, x + r + 9, y + 1);
+      }
+    });
+  }
+
+  hexA(hex, a) {
+    const h = hex.replace('#', '');
+    const r = parseInt(h.slice(0, 2), 16), g = parseInt(h.slice(2, 4), 16), b = parseInt(h.slice(4, 6), 16);
+    return `rgba(${r},${g},${b},${a})`;
+  }
+
+  attachEvents() {
+    const cv = this.canvasRef.current;
+    const pick = (sx, sy) => {
+      let best = null, bd = 1e9;
+      this.nodes.forEach(n => { if (!this.visible.has(n.id)) return; const [x, y, sc] = this.project(n.x, n.y); const dx = x - sx, dy = y - sy; const d = dx*dx + dy*dy; const rr = Math.max(9, n.rad * this.cam.k * sc + 6); if (d < rr*rr && d < bd) { bd = d; best = n; } });
+      return best;
+    };
+    cv.addEventListener('mousemove', (ev) => {
+      const r = cv.getBoundingClientRect(); const sx = ev.clientX - r.left, sy = ev.clientY - r.top;
+      if (this.drag) {
+        if (this.drag.pan) { this.cam.x += sx - this.drag.lx; this.cam.y += sy - this.drag.ly; this.drag.lx = sx; this.drag.ly = sy; }
+        else { const [wx, wy] = this.unproject(sx, sy); const nn = this.nodeById.get(this.drag.id); nn.x = wx; nn.y = wy; nn.vx = 0; nn.vy = 0; this.alpha = Math.max(this.alpha, 0.5); }
+        return;
+      }
+      const hit = pick(sx, sy);
+      const vg = this.vignetteRef.current;
+      if (hit) {
+        cv.style.cursor = 'pointer';
+        if (this.hoverId !== hit.id) { this.hoverId = hit.id; this.setState({ hover: hit }); }
+        if (vg) {
+          let lx = ev.clientX - r.left + 18, ty = ev.clientY - r.top + 14;
+          if (lx + 300 > this.W) lx = ev.clientX - r.left - 318;
+          if (ty + 240 > this.H) ty = Math.max(8, this.H - 250);
+          vg.style.left = lx + 'px'; vg.style.top = ty + 'px'; vg.style.display = 'block';
+        }
+      } else {
+        cv.style.cursor = 'grab';
+        if (this.hoverId) { this.hoverId = null; this.setState({ hover: null }); if (vg) vg.style.display = 'none'; }
+      }
+    });
+    cv.addEventListener('mousedown', (ev) => {
+      const r = cv.getBoundingClientRect(); const sx = ev.clientX - r.left, sy = ev.clientY - r.top;
+      const hit = pick(sx, sy);
+      if (hit) this.drag = { id: hit.id };
+      else { this.drag = { pan: true, lx: sx, ly: sy }; cv.style.cursor = 'grabbing'; }
+    });
+    window.addEventListener('mouseup', () => { if (this.drag && !this.drag.pan) this.alpha = Math.max(this.alpha, 0.35); this.drag = null; if (cv) cv.style.cursor = 'grab'; });
+    cv.addEventListener('wheel', (ev) => {
+      ev.preventDefault();
+      const r = cv.getBoundingClientRect(); const sx = ev.clientX - r.left, sy = ev.clientY - r.top;
+      const [wx, wy] = this.unproject(sx, sy);
+      const factor = Math.exp(-ev.deltaY * 0.0014);
+      this.cam.k = Math.max(0.25, Math.min(5, this.cam.k * factor));
+      const [nx, ny] = this.project(wx, wy);
+      this.cam.x += sx - nx; this.cam.y += sy - ny;
+    }, { passive: false });
+  }
+
+  // ---- chat ----
+  onInput = (e) => this.setState({ input: e.target.value });
+  onKey = (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.send(); } };
+  ask = (e) => { const q = e.currentTarget.dataset.q; this.runQuery(q); };
+  send = () => { const q = this.state.input.trim(); if (q) this.runQuery(q); };
+
+  catalog() {
+    const nodeLines = this.nodes.map(n => `${n.id} | ${n.label} | ${n.type} | ${n.layer}`).join('\n');
+    const edgeLines = this.edges.map(e => `${e.s} -[${e.type}]-> ${e.t}`).join('\n');
+    return { nodeLines, edgeLines };
+  }
+
+  async runQuery(q) {
+    if (this.state.busy) return;
+    this.setState(s => ({ messages: [...s.messages, { role: 'user', text: q }], input: '', busy: true }));
+    setTimeout(() => { const sc = this.scrollRef.current; if (sc) sc.scrollTop = sc.scrollHeight; }, 30);
+    // System B does all the graph reasoning server-side, so we just POST the question to
+    // our Flask /ask endpoint and map its frozen contract onto the colleague's `res` shape.
+    // B's `node_ids` (ids in `type:slug` form, identical to graph_data.js) feed highlightIds,
+    // so the existing highlight + camera-fit (applyResult/fitToIds) work untouched.
+    let res;
+    try {
+      const r = await fetch('/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: q }),
+      });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const data = await r.json();          // {answer, evidence, actions, node_ids, tool_trace}
+      res = {
+        answer: data.answer || '—',
+        highlightIds: data.node_ids || [],  // ← drives the colleague's highlight as-is
+        path: [],                           // node order not provided by B; plain highlight
+        filterLayers: [],
+        filterTypes: [],
+      };
+    } catch (err) {
+      res = { answer: "I couldn't reach the analysis service just now. Try a suggested question, or hover any node to inspect it.", highlightIds: [], path: [], filterLayers: [], filterTypes: [] };
+    }
+    this.applyResult(res);
+    const valid = (res.highlightIds || []).filter(id => this.nodeById.has(id));
+    const chips = [...new Set([...(res.path || []), ...valid])].filter(id => this.nodeById.has(id)).slice(0, 8).map(id => this.nodeById.get(id).label);
+    this.setState(s => ({ messages: [...s.messages, { role: 'bot', text: res.answer || '—', chips }], busy: false }));
+    setTimeout(() => { const sc = this.scrollRef.current; if (sc) sc.scrollTop = sc.scrollHeight; }, 30);
+  }
+
+  parseRes(raw) {
+    let t = (raw || '').trim();
+    const a = t.indexOf('{'), b = t.lastIndexOf('}');
+    if (a >= 0 && b > a) { try { return JSON.parse(t.slice(a, b + 1)); } catch (e) {} }
+    return { answer: t || '—', highlightIds: [], path: [], filterLayers: [], filterTypes: [] };
+  }
+
+  applyResult(res) {
+    const ids = (res.highlightIds || []).filter(id => this.nodeById.has(id));
+    const path = (res.path || []).filter(id => this.nodeById.has(id));
+    this.highlight = (ids.length || path.length) ? new Set([...ids, ...path]) : null;
+    this.pathEdges = path.length > 1 ? path.slice(1).map((id, i) => [path[i], id]) : null;
+    const fl = (res.filterLayers || []).filter(Boolean);
+    const ft = (res.filterTypes || []).filter(Boolean);
+    this.filter = (fl.length || ft.length) ? { layers: fl.length ? new Set(fl) : null, types: ft.length ? new Set(ft) : null } : null;
+    this.alpha = Math.max(this.alpha, 0.35);
+    // focus camera on highlighted/path nodes
+    const focusIds = path.length ? path : ids;
+    if (focusIds.length) this.fitToIds(focusIds);
+    else if (this.filter) this.fitToFilter();
+  }
+
+  fitToIds(ids) {
+    const pts = ids.map(id => this.nodeById.get(id)).filter(Boolean);
+    this.fitPoints(pts, 700);
+  }
+  fitToFilter() {
+    const pts = this.nodes.filter(n => this.visible.has(n.id) && (!this.filter.layers || this.filter.layers.has(n.layer)) && (!this.filter.types || this.filter.types.has(n.type)));
+    this.fitPoints(pts, 700);
+  }
+  fitPoints(pts, dur) {
+    if (!pts.length) return;
+    let minx=1e9,miny=1e9,maxx=-1e9,maxy=-1e9;
+    pts.forEach(n => { minx=Math.min(minx,n.x);miny=Math.min(miny,n.y);maxx=Math.max(maxx,n.x);maxy=Math.max(maxy,n.y); });
+    const pad = 130;
+    const k = Math.max(0.4, Math.min(2.4, 0.9 * Math.min((this.W-pad*2)/Math.max(40,maxx-minx),(this.H-pad*2)/Math.max(40,maxy-miny))));
+    const tcx=(minx+maxx)/2, tcy=(miny+maxy)/2;
+    this.animateCam({ k, x: this.W/2 - tcx*k, y: this.H/2 - tcy*k }, dur);
+  }
+
+  toggleLayer = (e) => {
+    const layer = e.currentTarget.dataset.layer;
+    if (this.filter && this.filter.layers && this.filter.layers.size === 1 && this.filter.layers.has(layer)) {
+      this.filter = null; this.highlight = null;
+    } else {
+      this.filter = { layers: new Set([layer]), types: null }; this.highlight = null; this.pathEdges = null;
+      this.fitToFilter();
+    }
+    this.alpha = Math.max(this.alpha, 0.3);
+    this.forceUpdate();
+  };
+
+  describe(n) {
+    const layerWord = { operational: 'operational', hr: 'human/organisation', financial: 'financial' }[n.layer] || 'general';
+    let s = `${n.label} is a ${n.type} in the ${layerWord} layer, connected to ${n.deg} other ${n.deg === 1 ? 'entity' : 'entities'}.`;
+    const a = n.attrs || {};
+    const keys = Object.keys(a).filter(k => a[k] !== '' && a[k] != null).slice(0, 2);
+    if (keys.length) s += ' ' + keys.map(k => `${k.replace(/_/g, ' ')} is ${a[k]}`).join('; ') + '.';
+    if (n.crit) s += ' Part of the critical path under review.';
+    return s;
+  }
+
+  renderVals() {
+    const h = this.state.hover;
+    const attrs = h ? Object.entries(h.attrs || {}).filter(([k, v]) => v !== '' && v != null).slice(0, 6).map(([k, v]) => ({ k: k.replace(/_/g, ' '), v: String(v) })) : [];
+    const layerColor = h ? (this.LAYER_COLORS[h.layer] || this.LAYER_COLORS.unknown) : '#3B82F6';
+    return {
+      canvasRef: this.canvasRef, vignetteRef: this.vignetteRef, scrollRef: this.scrollRef, inputRef: this.inputRef,
+      loadedCount: this.state.loadedCount, totalNodes: this.state.totalNodes, totalEdges: this.state.totalEdges,
+      status: this.state.status, busy: this.state.busy, input: this.state.input,
+      legend: this.legend || [],
+      messages: this.state.messages.map(m => ({ text: m.text, isUser: m.role === 'user', isBot: m.role === 'bot', chips: m.chips || [], hasChips: !!(m.chips && m.chips.length) })),
+      suggestions: [
+        'Trace the critical path to shipment SH-2049',
+        'Show only the financial layer',
+        'Which entities does the CEO manage?',
+        'What does MedPharma connect to?',
+      ],
+      replay: this.replay, ask: this.ask, send: this.send, onInput: this.onInput, onKey: this.onKey, toggleLayer: this.toggleLayer,
+      hoverName: h ? h.label : '', hoverType: h ? h.type : '', hoverId: h ? h.id : '',
+      hoverLayer: h ? (this.LAYER_NAMES[h.layer] || h.layer) : '',
+      hoverColor: layerColor, hoverDesc: h ? this.describe(h) : '', hoverAttrs: attrs,
+    };
+  }
+}
+</script>
+</body>
+</html>

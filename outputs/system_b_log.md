@@ -1,15 +1,12 @@
 # Système A — extracteur agentique · run_log
 
 
-## SYSTÈME-B · Question : Who are the key people in the company? — `claude-opus-4-8`
-  - 🔧 `system_b_query.centrality({'top': 12}) → 12 résultats`
-  - 🔧 `system_b_query.articulation_points({}) → 20 résultats`
-  - 🔧 `system_b_query.find_nodes({'node_type': 'Employee', 'layer': 'hr', 'attr_equals': {}}) → 15 résultats`
-  - 🔧 `system_b_query.get_neighbors({'node_id': 'employee:sarah-martin', 'direction': 'both', '…) → 8 résultats`
-  - 🔧 `system_b_query.get_neighbors({'node_id': 'employee:philippe-caron', 'direction': 'both',…) → 5 résultats`
-  - 🔧 `system_b_query.get_neighbors({'node_id': 'employee:jules-bernard', 'direction': 'both', …) → 6 résultats`
-  - 🔧 `system_b_query.get_neighbors({'node_id': 'employee:nadia-renard', 'direction': 'both', '…) → 3 résultats`
+## SYSTÈME-B · Question : Trace the critical path to shipment SH-2049 — `claude-opus-4-8`
+  - 🔧 `system_b_query.compute_impact({'shipment_id': 'sh-2049'}) → erreur:node not found`
+  - 🔧 `system_b_query.get_subgraph({'node_id': 'shipment:sh-2049', 'depth': 2}) → 1 objet`
+  - 🔧 `system_b_query.compute_impact({'shipment_id': 'shipment:sh-2049'}) → 1 objet`
+  - 🔧 `system_b_query.get_neighbors({'node_id': 'order:o-881', 'direction': 'both', 'rel_type':…) → 3 résultats`
 - ↳ submit_answer (réponse finale structurée) — fin
-- ✅ 7 appels outils · 11 nœuds · 7 preuves · 4 actions
+- ✅ 4 appels outils · 12 nœuds · 9 preuves · 4 actions
 
-## TOTAL — 7 appels outils · 0 in (+0 cache) / 0 out tokens · $0.00 · 57.9s
+## TOTAL — 4 appels outils · 0 in (+0 cache) / 0 out tokens · $0.00 · 44.4s
