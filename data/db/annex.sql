@@ -12,18 +12,18 @@ CREATE TABLE customer_claims (
     closed_at TEXT,
     status TEXT
 );
-INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (1, 'C003', 'SH-2060', 'Billing dispute', '2026-01-11', '2026-01-18', 'closed');
-INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (2, 'C003', 'SH-2061', 'Temperature breach', '2026-04-09', '2026-04-26', 'closed');
-INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (3, 'C005', 'SH-2065', 'Billing dispute', '2026-01-22', '2026-02-07', 'closed');
-INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (4, 'C015', 'SH-2057', 'Wrong quantity', '2026-01-21', '2026-02-10', 'closed');
-INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (5, 'C011', 'SH-2070', 'Temperature breach', '2025-10-20', '2025-11-19', 'closed');
-INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (6, 'C009', 'SH-2075', 'Wrong quantity', '2026-03-30', '2026-04-22', 'closed');
-INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (7, 'C010', NULL, 'Damaged goods', '2025-09-10', '2025-09-18', 'closed');
-INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (8, 'C014', 'SH-2064', 'Damaged goods', '2025-08-31', '2025-09-19', 'closed');
-INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (9, 'C017', 'SH-2069', 'Damaged goods', '2026-04-27', '2026-05-01', 'closed');
-INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (10, 'C013', 'SH-2065', 'Damaged goods', '2026-04-22', '2026-05-12', 'closed');
-INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (11, 'C016', 'SH-2065', 'Damaged goods', '2025-09-09', '2025-09-27', 'closed');
-INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (12, 'C006', 'SH-2075', 'Wrong quantity', '2025-11-10', '2025-12-06', 'closed');
+INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (1, 'C003', 'SH-2060', 'Billing dispute', '2026-01-12', '2026-01-19', 'closed');
+INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (2, 'C003', 'SH-2061', 'Temperature breach', '2026-04-10', '2026-04-27', 'closed');
+INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (3, 'C005', 'SH-2065', 'Billing dispute', '2026-01-23', '2026-02-08', 'closed');
+INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (4, 'C015', 'SH-2057', 'Wrong quantity', '2026-01-22', '2026-02-11', 'closed');
+INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (5, 'C011', 'SH-2070', 'Temperature breach', '2025-10-21', '2025-11-20', 'closed');
+INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (6, 'C009', 'SH-2075', 'Wrong quantity', '2026-03-31', '2026-04-23', 'closed');
+INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (7, 'C010', NULL, 'Damaged goods', '2025-09-11', '2025-09-19', 'closed');
+INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (8, 'C014', 'SH-2064', 'Damaged goods', '2025-09-01', '2025-09-20', 'closed');
+INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (9, 'C017', 'SH-2069', 'Damaged goods', '2026-04-28', '2026-05-02', 'closed');
+INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (10, 'C013', 'SH-2065', 'Damaged goods', '2026-04-23', '2026-05-13', 'closed');
+INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (11, 'C016', 'SH-2065', 'Damaged goods', '2025-09-10', '2025-09-28', 'closed');
+INSERT INTO customer_claims (id, customer_ref, shipment_ref, type, opened_at, closed_at, status) VALUES (12, 'C006', 'SH-2075', 'Wrong quantity', '2025-11-11', '2025-12-07', 'closed');
 
 DROP TABLE IF EXISTS sla_penalty_log;
 CREATE TABLE sla_penalty_log (
