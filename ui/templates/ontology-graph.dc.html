@@ -30,13 +30,6 @@
     <canvas ref="{{ canvasRef }}" style="position:absolute;inset:0;display:block;cursor:grab;"></canvas>
 
     <div style="position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:18px;padding:14px 20px;pointer-events:none;background:linear-gradient(180deg,rgba(6,8,13,.92) 0%,rgba(6,8,13,0) 100%);">
-      <div style="display:flex;flex-direction:column;gap:3px;">
-        <div style="display:flex;align-items:center;gap:9px;">
-          <div style="width:9px;height:9px;background:#3B82F6;box-shadow:0 0 10px #3B82F6;"></div>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.22em;color:#7E8CA0;text-transform:uppercase;">Ontology Graph</span>
-        </div>
-        <div style="font-size:18px;font-weight:600;color:#EAF1FB;letter-spacing:-.01em;">Our Logistics Co</div>
-      </div>
       <div style="display:flex;gap:0;margin-left:6px;border:1px solid #1b2433;background:rgba(10,14,20,.6);">
         <div style="padding:7px 14px;border-right:1px solid #1b2433;">
           <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;color:#5A6678;text-transform:uppercase;">Entities</div>
@@ -79,11 +72,10 @@
     </div>
 
     <div ref="{{ vignetteRef }}" style="position:absolute;display:none;width:300px;z-index:30;pointer-events:none;background:rgba(9,12,18,.97);border:1px solid #243149;box-shadow:0 18px 50px rgba(0,0,0,.6);backdrop-filter:blur(2px);">
-      <div style="height:3px;background:{{ hoverColor }};"></div>
       <div style="padding:13px 14px 14px;">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
           <div style="font-size:15px;font-weight:600;color:#EAF1FB;line-height:1.2;">{{ hoverName }}</div>
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#0A0E14;background:{{ hoverColor }};padding:3px 6px;white-space:nowrap;">{{ hoverLayer }}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#EAF1FB;white-space:nowrap;">{{ hoverLayer }}</span>
         </div>
         <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7E8CA0;margin-top:4px;">{{ hoverType }} &nbsp;·&nbsp; {{ hoverId }}</div>
         <div style="font-size:12.5px;line-height:1.55;color:#AEB9C9;margin-top:10px;">{{ hoverDesc }}</div>
@@ -100,11 +92,7 @@
 
   <div style="width:384px;flex:none;display:flex;flex-direction:column;background:#080B11;border-left:1px solid #161e2b;">
     <div style="padding:16px 18px 14px;border-bottom:1px solid #161e2b;">
-      <div style="display:flex;align-items:center;gap:9px;">
-        <div style="width:7px;height:7px;border-radius:50%;background:#34D399;box-shadow:0 0 8px #34D399;"></div>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;color:#9AA7B8;text-transform:uppercase;">Graph Analyst</span>
-      </div>
-      <div style="font-size:12.5px;color:#6B7689;margin-top:7px;line-height:1.5;">Ask a business question. I'll answer and light up the entities &amp; relationships behind the answer.</div>
+      <div style="font-size:12.5px;color:#6B7689;line-height:1.5;">Ask a business question. I'll answer and light up the entities &amp; relationships behind the answer.</div>
     </div>
 
     <div ref="{{ scrollRef }}" class="pl-scroll" style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px;">
@@ -114,7 +102,7 @@
         </sc-if>
         <sc-if value="{{ m.isBot }}" hint-placeholder-val="{{ false }}">
           <div style="align-self:flex-start;max-width:92%;">
-            <div style="background:#0E141E;border:1px solid #1b2433;border-left:2px solid #3B82F6;color:#C7D0DD;padding:11px 14px;font-size:13.5px;line-height:1.6;white-space:pre-wrap;">{{ m.text }}</div>
+            <div style="background:#0E141E;border:1px solid #1b2433;color:#C7D0DD;padding:11px 14px;font-size:13.5px;line-height:1.6;white-space:pre-wrap;">{{ m.text }}</div>
             <sc-if value="{{ m.hasChips }}" hint-placeholder-val="{{ false }}">
               <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
                 <sc-for list="{{ m.chips }}" as="c" hint-placeholder-count="0">
@@ -126,7 +114,7 @@
         </sc-if>
       </sc-for>
       <sc-if value="{{ busy }}" hint-placeholder-val="{{ false }}">
-        <div style="align-self:flex-start;display:flex;gap:5px;padding:11px 14px;background:#0E141E;border:1px solid #1b2433;border-left:2px solid #3B82F6;">
+        <div style="align-self:flex-start;display:flex;gap:5px;padding:11px 14px;background:#0E141E;border:1px solid #1b2433;">
           <span style="width:6px;height:6px;border-radius:50%;background:#3B82F6;animation:plDots 1s infinite;"></span>
           <span style="width:6px;height:6px;border-radius:50%;background:#3B82F6;animation:plDots 1s infinite .2s;"></span>
           <span style="width:6px;height:6px;border-radius:50%;background:#3B82F6;animation:plDots 1s infinite .4s;"></span>
@@ -173,7 +161,7 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   state = {
-    messages: [{ role: 'bot', text: "Ontology loaded. Ask me anything — try a suggestion below, or \"trace the critical path to shipment SH-2049\".", chips: [] }],
+    messages: [],
     input: '',
     busy: false,
     loadedCount: 0,
@@ -207,6 +195,7 @@ class Component extends DCLogic {
     this.filter = null;      // {layers:Set, types:Set}
     this.hoverId = null;
     this.drag = null;        // {id} or {pan:true}
+    this.userControlledCam = false;  // once the user zooms/pans, stop auto-recentering
     this.t0 = performance.now();
   }
 
@@ -251,7 +240,7 @@ class Component extends DCLogic {
       cv.style.width = r.width + 'px'; cv.style.height = r.height + 'px';
       this.W = r.width; this.H = r.height;
       if (!this._didFit) { this.cam = { x: this.W / 2, y: this.H / 2, k: 1.1 }; this._didFit = true; }
-      else if (this._done) { clearTimeout(this._refitT); this._refitT = setTimeout(() => this.fitView(400), 120); }
+      else if (this._done && !this.userControlledCam) { clearTimeout(this._refitT); this._refitT = setTimeout(() => { if (!this.userControlledCam) this.fitView(400); }, 120); }
     };
     this._onResize();
     window.addEventListener('resize', this._onResize);
@@ -294,10 +283,10 @@ class Component extends DCLogic {
         this._revealed = true;
         this.pathEdges = [['customer:medpharma','po:po-8821'],['po:po-8821','order:o-881'],['order:o-881','shipment:sh-2049']];
       }
-      // refit as the layout settles
-      this.fitView(900);
-      setTimeout(() => this.fitView(800), 900);
-      setTimeout(() => { this.alpha = Math.min(this.alpha, 0.12); this.fitView(700); }, 2200);
+      // refit as the layout settles (only while the user hasn't taken the camera over)
+      if (!this.userControlledCam) this.fitView(900);
+      setTimeout(() => { if (!this.userControlledCam) this.fitView(800); }, 900);
+      setTimeout(() => { this.alpha = Math.min(this.alpha, 0.12); if (!this.userControlledCam) this.fitView(700); }, 2200);
       return;
     }
     const ph = this.phases[this.pi];
@@ -395,7 +384,7 @@ class Component extends DCLogic {
     }
     this.alpha *= 0.992;
     // final fit the moment the layout comes to rest
-    if (this._done && !this._settled && this.alpha <= 0.02) { this._settled = true; this.fitView(650); this._live = true; }
+    if (this._done && !this._settled && this.alpha <= 0.02) { this._settled = true; if (!this.userControlledCam) this.fitView(650); this._live = true; }
   }
 
   loop = () => {
@@ -551,11 +540,12 @@ class Component extends DCLogic {
       const r = cv.getBoundingClientRect(); const sx = ev.clientX - r.left, sy = ev.clientY - r.top;
       const hit = pick(sx, sy);
       if (hit) this.drag = { id: hit.id };
-      else { this.drag = { pan: true, lx: sx, ly: sy }; cv.style.cursor = 'grabbing'; }
+      else { this.drag = { pan: true, lx: sx, ly: sy }; cv.style.cursor = 'grabbing'; this.userControlledCam = true; }
     });
     window.addEventListener('mouseup', () => { if (this.drag && !this.drag.pan) this.alpha = Math.max(this.alpha, 0.35); this.drag = null; if (cv) cv.style.cursor = 'grab'; });
     cv.addEventListener('wheel', (ev) => {
       ev.preventDefault();
+      this.userControlledCam = true;  // manual zoom takes the camera over: stop auto-recentering
       const r = cv.getBoundingClientRect(); const sx = ev.clientX - r.left, sy = ev.clientY - r.top;
       const [wx, wy] = this.unproject(sx, sy);
       const factor = Math.exp(-ev.deltaY * 0.0014);
@@ -595,7 +585,7 @@ class Component extends DCLogic {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       const data = await r.json();          // {answer, evidence, actions, node_ids, tool_trace}
       res = {
-        answer: data.answer || '—',
+        answer: this.stripMarkdown(data.answer) || 'No answer.',
         highlightIds: data.node_ids || [],  // ← drives the colleague's highlight as-is
         path: [],                           // node order not provided by B; plain highlight
         filterLayers: [],
@@ -607,8 +597,25 @@ class Component extends DCLogic {
     this.applyResult(res);
     const valid = (res.highlightIds || []).filter(id => this.nodeById.has(id));
     const chips = [...new Set([...(res.path || []), ...valid])].filter(id => this.nodeById.has(id)).slice(0, 8).map(id => this.nodeById.get(id).label);
-    this.setState(s => ({ messages: [...s.messages, { role: 'bot', text: res.answer || '—', chips }], busy: false }));
+    this.setState(s => ({ messages: [...s.messages, { role: 'bot', text: res.answer || 'No answer.', chips }], busy: false }));
     setTimeout(() => { const sc = this.scrollRef.current; if (sc) sc.scrollTop = sc.scrollHeight; }, 30);
+  }
+
+  // B is instructed to return plain text, but strip any residual markdown / em dashes as a
+  // belt-and-suspenders for the video (the chat bubble renders raw text, not markdown).
+  stripMarkdown(s) {
+    if (!s) return '';
+    return s
+      .replace(/\*\*(.*?)\*\*/g, '$1')        // **bold**
+      .replace(/(^|\s)\*(\S.*?\S)\*/g, '$1$2') // *italic*
+      .replace(/`([^`]*)`/g, '$1')             // `code`
+      .replace(/^#{1,6}\s+/gm, '')             // # headings
+      .replace(/^\s*[-*]\s+/gm, '')            // - or * bullets
+      .replace(/\|/g, ' ')                      // table pipes
+      .replace(/^\s*-{3,}\s*$/gm, '')           // --- table rules
+      .replace(/\s*[—–]\s*/g, ', ')             // em/en dash -> comma
+      .replace(/[ \t]{2,}/g, ' ')               // collapse multiple spaces
+      .trim();
   }
 
   parseRes(raw) {
@@ -627,6 +634,9 @@ class Component extends DCLogic {
     const ft = (res.filterTypes || []).filter(Boolean);
     this.filter = (fl.length || ft.length) ? { layers: fl.length ? new Set(fl) : null, types: ft.length ? new Set(ft) : null } : null;
     this.alpha = Math.max(this.alpha, 0.35);
+    // A new chat answer reclaims the camera to show the result (the wow moment), then the
+    // user is free to explore again until the next question.
+    this.userControlledCam = false;
     // focus camera on highlighted/path nodes
     const focusIds = path.length ? path : ids;
     if (focusIds.length) this.fitToIds(focusIds);
