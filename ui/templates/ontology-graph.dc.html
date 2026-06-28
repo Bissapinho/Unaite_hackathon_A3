@@ -175,7 +175,7 @@ class Component extends DCLogic {
   LAYER_SHAPES = { operational: 'circle', hr: 'square', financial: 'triangle', unknown: 'diamond' };
   LAYER_NAMES = { operational: 'Operational', hr: 'Human / Org', financial: 'Financial', unknown: 'Other' };
   CRIT = '#F59E0B';
-  CRIT_IDS = ['customer:medpharma', 'po:po-8821', 'order:o-881', 'shipment:sh-2049'];
+  CRIT_IDS = [];  // no hardcoded pre-lit critical path; chat-driven highlight only (this.highlight)
 
   canvasRef = React.createRef();
   vignetteRef = React.createRef();
@@ -252,7 +252,6 @@ class Component extends DCLogic {
     ['operational', 'hr', 'financial'].forEach(l => { const items = byLayer(l); if (items.length) this.phases.push({ name: this.LAYER_NAMES[l], items, batch: 6, gap: 60 }); });
     const other = this.nodes.filter(n => !['operational', 'hr', 'financial'].includes(n.layer) && !n.crit);
     if (other.length) this.phases.push({ name: 'Other', items: other, batch: 6, gap: 60 });
-    this.phases.push({ name: 'Critical path · MedPharma → SH-2049', items: this.CRIT_IDS.map(id => this.nodeById.get(id)).filter(Boolean), batch: 1, gap: 650, critical: true });
   }
 
   startBuild() {
@@ -279,10 +278,6 @@ class Component extends DCLogic {
       this._done = true;
       this.setState({ status: 'complete · ' + this.visible.size + ' entities · ' + this.shownEdges.length + ' relations' });
       this.alpha = 0.5;
-      if (!this._revealed && this.CRIT_IDS.every(id => this.visible.has(id))) {
-        this._revealed = true;
-        this.pathEdges = [['customer:medpharma','po:po-8821'],['po:po-8821','order:o-881'],['order:o-881','shipment:sh-2049']];
-      }
       // refit as the layout settles (only while the user hasn't taken the camera over)
       if (!this.userControlledCam) this.fitView(900);
       setTimeout(() => { if (!this.userControlledCam) this.fitView(800); }, 900);
@@ -296,11 +291,8 @@ class Component extends DCLogic {
     this.addEligibleEdges();
     this.alpha = Math.min(1, this.alpha + 0.4);
     this.setState({ loadedCount: this.visible.size, status: ph.name + ' · ' + this.visible.size + '/' + this.nodes.length });
-    if (ph.critical) {
-      this.pathEdges = this.CRIT_IDS.slice(0, this.ii).map((id, i) => i > 0 ? [this.CRIT_IDS[i - 1], id] : null).filter(Boolean);
-    }
     if (this.ii >= ph.items.length) { this.pi++; this.ii = 0; this._buildT = setTimeout(() => this.tick(), ph.gap); }
-    else this._buildT = setTimeout(() => this.tick(), ph.critical ? ph.gap : 70);
+    else this._buildT = setTimeout(() => this.tick(), 70);
   }
 
   fitView(dur) {
