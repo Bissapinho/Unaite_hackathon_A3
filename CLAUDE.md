@@ -6,6 +6,10 @@
 > Remplace les versions antérieures : control tower Streamlit tout-mocké, puis « swarm
 > linéaire » Source Profiler→…→Critic. La vision business et les prompts de specs vivent
 > dans le dossier séparé `YC QRT/` (stratégie, pitch YC).
+>
+> **MAJ 2026-06-28 — tout le pipeline est implémenté et la démo tourne bout-en-bout**
+> (Système A oracle + agentique, Système B, UI Flask + viz du collègue + surlignage). Voir la
+> **§8 (état d'avancement)** qui fait foi. Restent surtout l'optim latence et le polish vidéo.
 
 ---
 
@@ -287,19 +291,24 @@ calcule depuis les factures)* · `Supplier payment_terms feeds CashflowGap`.
 
 ## 5. L'interface de démo
 
-Quatre écrans (techno UI à trancher — Streamlit ou Next.js) :
+**Techno tranchée : serveur Flask (`ui/`) + viz canvas animée du collègue** (faite avec
+Claude Design, pas Pyvis), graphe et chat dans **une même page**. Fichiers de la viz dans
+`ui/static/graph_data.js`, `ui/static/support.js`, `ui/templates/ontology-graph.dc.html`. Le
+chat appelle le vrai Système B via `POST /ask` ; les `node_ids` de la réponse pilotent le
+**surlignage synchronisé** de la carte (zoom sur SH-2049). État : **marche bout-en-bout.**
 
-1. **Sources** — cartes des sources brutes (Odoo, Dashdoc, SQLite, les 2 Excel, PDF,
-   emails) : le « chaos » avant.
-2. **Build** — bouton « compiler l'ontologie », puis progression du **Système A** avec
-   **logs visibles** des passes (Extraction → Profiler → Entity → … → Critic → Validation)
-   et des appels MCP. On *voit* le compilateur travailler.
-3. **Graphe** — carte Pyvis de toute la PME (3 couches colorées), navigable. Affiche
-   **tout le graphe** (~150 nœuds, effet « toute la boîte cartographiée ») **avec
-   zoom/surbrillance sur le voisinage de SH-2049**. Le « avant/après » chaos → clarté.
-4. **Chat (Système B)** — champ de question. La **question phare** (disruption SH-2049) +
-   des **questions structure** pré-remplies cliquables. B répond avec impact + chaîne
-   d'evidence + actions proposées. On *voit* B appeler ses outils NetworkX (logs).
+Ce qu'on voit à l'écran :
+
+1. **Graphe** — carte canvas de toute la PME (3 couches colorées), animée au build (couche
+   par couche puis révélation du **chemin critique MedPharma → SH-2049**), zoom/pan/drag
+   **manuels** (plus de re-cadrage auto une fois que l'utilisateur a la main).
+2. **Chat (Système B)** — champ de question + questions cliquables. B répond (texte brut,
+   sans markdown) avec impact + chaîne d'evidence + actions proposées, et **surligne** les
+   nœuds concernés sur la carte. SSE dispo pour montrer les appels d'outils en direct.
+
+> Les écrans **Sources** et **Build** (logs des passes de A) décrits dans les versions
+> antérieures ne sont pas dans l'UI actuelle : la démo se concentre sur **carte + chat**, le
+> « waouh » du jury. Le build de A reste visible via ses logs console (`outputs/*.log`).
 
 ---
 
@@ -358,28 +367,49 @@ depuis les factures. Prompt : `YC QRT/prompts/01b-data-rh-finances.md`.
 > « Brique 1 » / « 4 fichiers » à actualiser dans `DATA_README.md` ; (M4) faux positif
 > d'environnement sur `annex.db`. → **La voie est libre pour le Système A.**
 
-### ⏭️ Prochaines briques (ordre de build)
-1. **Système A — oracle déterministe** : un script Python (sans LLM) qui lit les **dumps
-   produits** (PAS `canonical.py`), fait l'entity resolution + reconstruit l'organigramme,
-   et produit les **3 livrables** : `ontology.json` + graphe NetworkX + carte Pyvis. Sert
-   d'**ontologie de référence** (oracle de test) pour l'étape 3.
-2. *(inclus dans 1)* La **carte Pyvis** est dérivée du graphe NetworkX de A — tout le
-   graphe + zoom SH-2049. Pas une brique à part : A va jusqu'à la carte.
-3. **Système A — extracteur agentique** (Claude Agent SDK) : chaque passe = un agent nommé
-   avec logs visibles, qui **requête les MCP + parse les fichiers** (le vrai produit, celui
-   de la démo). On **vérifie qu'il retrouve la même ontologie** que l'oracle (étape 1).
-4. **Système B — agent conversationnel** — recharge `ontology.json` → NetworkX, outils de
-   requête + raisonnement + réponse sourcée + actions proposées. Question phare + questions
-   structure. **B interroge seulement.**
-5. **UI des 4 écrans** + **polish vidéo** (pacing, logs, animation, voix off).
+### ✅ Système A — oracle déterministe (FAIT)
+Script Python sans LLM (`system_a/`) : lit les dumps produits (PAS `canonical.py`), entity
+resolution + reconstruction organigramme, produit `outputs/ontology.json` + graphe NetworkX.
+Sert d'**oracle de référence**. Audit : `YC QRT/AUDIT-systeme-A-oracle.md`. Dette assumée :
+oracle ne matérialise que CT-001 (anti-triche, choix MVP) ; confidence fuzzy 0.97 vs ~0.85
+visée (à corriger après MVP).
 
-> **Principe de build** : déterministe bout-en-bout d'abord, puis emballage en agents. Ne
-> pas commencer par les abstractions d'agents.
+### ✅ Carte / graphe NetworkX (FAIT)
+Le loader `system_a/ontology_graph.py` (JSON → `nx.MultiDiGraph`, résilient strict/hybrid)
+est en place et partagé A/B. La **carte visuelle** finale n'est PAS du Pyvis : c'est la viz
+canvas animée du collègue (cf. §5), alimentée par l'ontologie.
 
-> **Priorité assumée** (temps limité) : le « waouh » du jury, c'est **B + la carte**, pas
-> la sophistication interne de A. Si le temps manque, un **A simple qui sort un bon
-> `ontology.json`** + un **B brillant** fait une meilleure démo que l'inverse. Traiter A
-> comme un moyen, pas comme la fin.
+### ✅ Système A — extracteur agentique (FAIT)
+`system_a_agents/` (Claude Agent SDK) : passes p0→p7 (Extraction, Profiler, Entity,
+Relationship, Attribute, Architect, Critic, Validation), supervisor + blackboard, logs
+visibles. Produit `outputs/ontology.agentic.json` (**242 entités / 356 relations**).
+Convergence ~99,8 % vs oracle. Un run d'optimisation coût/latence peut encore tourner.
+**Dette délai email** : le `delay_hours:6` de SH-2049 vit dans le *corps* des `.eml` ; la
+passe p4 a été modifiée pour l'extraire (et le JSON patché en dur en attendant un re-run qui
+le confirme).
+
+### ✅ Système B — agent conversationnel (FAIT)
+`system_b/` : recharge `ontology.agentic.json` → NetworkX via le loader de A, outils de
+requête génériques (`find_nodes`, `get_neighbors`, `shortest_path`, `get_subgraph`,
+`compute_impact`, `score_delayed_shipments`, `articulation_points`, `centrality`), agent
+**Opus 4.8** qui raisonne + répond sourcé + propose des actions. Sortie structurée via
+`submit_answer` : `answer(question) -> {answer, evidence, actions, node_ids, tool_trace}`.
+Désigne SH-2049 **par scoring** (pas de `is_hot`). ~37 s/réponse (latence = génération, pas
+les tours ; optim = resserrer la sortie, non faite). Spec : `YC QRT/prompts/05`.
+
+### ✅ UI — Flask + viz du collègue + vrai B (FAIT, marche bout-en-bout)
+`ui/` : serveur **Flask** (`app.py` + `backend.py`) qui sert la viz canvas du collègue et
+expose `POST /ask` → vrai B (+ `GET /ask_stream` SSE pour les logs en direct). Chat branché
+sur B (`node_ids` → surlignage de la carte). Spec d'intégration : `YC QRT/prompts/07` ;
+correctifs cosmétiques : `YC QRT/prompts/08`-`10`.
+
+### ⏭️ Reste (optionnel)
+- **Optim latence de B** (resserrer la sortie) — « si impossible, pas grave ».
+- **Polish vidéo** : pacing, voix off, enchaînement chaos → carte → révélation SH-2049.
+- Solder les dettes (fuzzy confidence, confirmer le `delay_hours` via re-run de A).
+
+> **Principe de build** (rappel) : déterministe bout-en-bout d'abord, puis emballage en
+> agents. Le « waouh » du jury, c'est **B + la carte** — c'est en place.
 
 ---
 
