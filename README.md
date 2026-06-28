@@ -24,7 +24,7 @@ documentation in [`DATA_README.md`](DATA_README.md).
 
 **macOS / Linux**
 ```bash
-python -m venv .venv && source .venv/bin/activate
+python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env        # create your .env from the template
 open .env                   # (or: nano .env) — paste the ANTHROPIC_API_KEY after "ANTHROPIC_API_KEY="
@@ -45,12 +45,12 @@ notepad .env                # paste the ANTHROPIC_API_KEY after "ANTHROPIC_API_K
 This loads the pre-built ontology graph and lets you query it via System B. **This is the
 path you want.**
 ```bash
-python -m ui.app                 # → http://127.0.0.1:5000  (real System B, ~35 s/question)
+python3 -m ui.app                # → http://127.0.0.1:5000  (real System B, ~35 s/question)
 ```
 
 Optional mocked mode (instant SH-2049 answer, front-end dev, no key):
 ```bash
-UI_MOCK=1 python -m ui.app                       # macOS / Linux
+UI_MOCK=1 python3 -m ui.app                      # macOS / Linux
 ```
 ```powershell
 $env:UI_MOCK=1 ; python -m ui.app               # Windows (PowerShell)
@@ -67,16 +67,16 @@ required to use the product. Heads-up: the ingestion pipeline is **long and toke
 
 ```bash
 # 1. (Re)generate the synthetic data — idempotent, fast, no key
-python data/generate_all.py     # produces all dumps (Odoo, Dashdoc, SQLite, Excel, PDF, emails)
-python data/validate.py         # checks consistency (83/83 PASS expected)
+python3 data/generate_all.py     # produces all dumps (Odoo, Dashdoc, SQLite, Excel, PDF, emails)
+python3 data/validate.py         # checks consistency (83/83 PASS expected)
 
 # 2a. Deterministic oracle (no LLM, no key) — reference, fast
-python -m system_a.build_ontology              # → outputs/ontology.json
+python3 -m system_a.build_ontology              # → outputs/ontology.json
 
 # 2b. Agentic extractor (LLM, requires ANTHROPIC_API_KEY) — SLOW (~minutes, ~$7)
-python -m system_a_agents.run                  # full pipeline (8 passes) → outputs/ontology.agentic.json
-python -m system_a_agents.run --dry-run        # P0 only, NO key (plumbing test)
-python -m system_a_agents.run --passes p2,p3   # replays a subset (reloads the blackboard)
+python3 -m system_a_agents.run                  # full pipeline (8 passes) → outputs/ontology.agentic.json
+python3 -m system_a_agents.run --dry-run        # P0 only, NO key (plumbing test)
+python3 -m system_a_agents.run --passes p2,p3   # replays a subset (reloads the blackboard)
 ```
 
 Once rebuilt, query it the same way: run the app (Quick start above).
