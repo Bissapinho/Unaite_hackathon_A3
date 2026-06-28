@@ -5,3 +5,12 @@ reportlab>=4.0       # génération des PDF (texte extractible)
 mcp>=1.0             # SDK Model Context Protocol officiel (serveurs mock stdio)
 Faker>=24.0          # bruit réaliste uniquement (seed fixe pour reproductibilité)
 pypdf>=4.0           # ré-extraction du texte des PDF dans data/validate.py (check #6)
+
+# Système A — étage 2 (extracteur agentique)
+claude-agent-sdk>=0.2.110  # pipeline d'agents (passes LLM, outils en-process, MCP stdio)
+pydantic>=2          # contrats d'I/O des passes (validation avant écriture au Blackboard)
+python-dotenv>=1     # chargement de ANTHROPIC_API_KEY depuis .env (gitignored)
+
+# Système A (loader graphe) & Système B (agent conversationnel)
+networkx>=3.0        # graphe en mémoire : loader ontology_graph + outils de requête de B
+pytest>=8            # tests déterministes de la couche de requête (system_b/tests)

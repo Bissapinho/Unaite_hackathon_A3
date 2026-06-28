@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "dashdoc_tms": {
+      "command": ".venv/bin/python",
+      "args": ["mcp_mocks/dashdoc_server.py"]
+    },
+    "odoo_erp": {
+      "command": ".venv/bin/python",
+      "args": ["mcp_mocks/odoo_server.py"]
+    },
+    "email_inbox": {
+      "command": ".venv/bin/python",
+      "args": ["mcp_mocks/email_server.py"]
+    }
+  }
+}
