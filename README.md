@@ -27,7 +27,7 @@ documentation in [`DATA_README.md`](DATA_README.md).
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env        # create your .env from the template
-open .env                   # (or: nano .env) — paste the ANTHROPIC_API_KEY after "ANTHROPIC_API_KEY="
+open .env                   # (or: nano .env) — paste the ANTHROPIC_API_KEY (in the "github" Google Doc) after "ANTHROPIC_API_KEY="
 ```
 
 **Windows (PowerShell)**
@@ -35,11 +35,12 @@ open .env                   # (or: nano .env) — paste the ANTHROPIC_API_KEY af
 python -m venv .venv ; .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 copy .env.example .env      # create your .env from the template
-notepad .env                # paste the ANTHROPIC_API_KEY after "ANTHROPIC_API_KEY="
+notepad .env                # paste the ANTHROPIC_API_KEY (in the "github" Google Doc) after "ANTHROPIC_API_KEY="
 ```
 
-> The key (provided in the submission form) goes on the `ANTHROPIC_API_KEY=` line in `.env`,
-> with no quotes and no spaces, e.g. `ANTHROPIC_API_KEY=sk-ant-...`.
+> The ANTHROPIC_API_KEY is available in the "github" Google Doc. Paste it on the
+> `ANTHROPIC_API_KEY=` line in `.env`, with no quotes and no spaces, e.g.
+> `ANTHROPIC_API_KEY=sk-ant-...`.
 
 ### Quick start — run the app (recommended)
 This loads the pre-built ontology graph and lets you query it via System B. **This is the
